@@ -1,0 +1,101 @@
+body::-webkit-scrollbar {
+  margin: 0;
+  padding: 0;
+  display: none;
+}
+
+body {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  /* width: max-content; */
+}
+
+.columnForBasic {
+  margin: 0;
+  padding: 0;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+  padding: 4px;
+}
+
+.rowForBasic {
+  display: flex;
+}
+
+.infoTables {
+  height: 100%;
+  border: 1px solid;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.infoTables td,
+.infoTables th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.infoTables tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.infoTables tr:hover {
+  background-color: #ddd;
+}
+.infoTables th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #04aa6d;
+  color: white;
+}
+
+#gotocrm {
+  background-color: white;
+  padding: 0.5em;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 6px;
+  color: black;
+  font-family: "Oswald";
+  font-size: 20px;
+  text-decoration: none;
+  border: none;
+}
+#gotocrm:hover {
+  border: none;
+  background: orange;
+  box-shadow: 0px 0px 1px #777;
+}
+
+.text-center {
+  text-align: center;
+}
+
+
+
+
+/* input[name="searchInput"] {
+  height: 200px;
+} */
+/* #searchInput{
+  height: 200px;
+  width: 50%;
+} */
+
+#searchButton {
+  background-color: black;
+  /* background-color: #4CAF50; Green */
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  margin: 5px;
+}
+#searchButton:hover {
+  background-color: #4caf50;
+  color: white;
+}

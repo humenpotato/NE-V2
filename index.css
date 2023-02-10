@@ -1,0 +1,63 @@
+html,
+body {
+  scroll-behavior: smooth;
+  background-color: black;
+  color: white;
+  width: max-content;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.text-center {
+  text-align: center;
+}
+
+.button {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button1 {
+  background-color: white;
+  color: black;
+  border: 2px solid #4caf50;
+}
+
+.button1:hover {
+  background-color: #4caf50;
+  color: white;
+}
+
+.button2 {
+  background-color: white;
+  color: black;
+  border: 2px solid red;
+}
+
+.button2:hover {
+  background-color: red;
+  color: white;
+}
+
+input:invalid {
+  background: red;
+}
+
+.columnForBasic {
+  text-align: center;
+}
+
+/* Post Main */
