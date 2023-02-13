@@ -1,10 +1,10 @@
 function getParams() {
-  try{
+  try {
     var idx = document.URL.indexOf('?');
     if (idx != -1) {
-        var idreq = document.URL.substring(idx + 1, document.URL.length)
-        console.log(idreq)
-        getCurrentURL(idreq)
+      var idreq = document.URL.substring(idx + 1, document.URL.length)
+      console.error(idreq)
+      getCurrentURL(idreq)
     }
   }
   catch {
@@ -12,7 +12,7 @@ function getParams() {
   }
 }
 
-async function getCurrentURL (sidurl) {
+async function getCurrentURL(sidurl) {
   let file =
     'https://elastic-sync.s3.ap-south-1.amazonaws.com/SJSON/' +
     sidurl +
@@ -20,28 +20,56 @@ async function getCurrentURL (sidurl) {
   fetch(file) //api for the get request
     .then(response => response.json())
     .then(async data => await processData(JSON.parse(data)))
+    .catch(error => updateError(error))
 }
 
-getParams() 
+getParams()
 
 window.onload = function () {
   var mb = document.getElementById('searchButton')
   mb.addEventListener('click', getText)
 }
 
-async function getText () {
+async function getText() {
   let file =
-    'https://elastic-sync.s3.ap-south-1.amazonaws.com/SJSON/'+document.getElementById('searchSession').value +
+    'https://elastic-sync.s3.ap-south-1.amazonaws.com/SJSON/' + document.getElementById('searchSession').value +
     '.json'
   fetch(file) //api for the get request
     .then(response => response.json())
     .then(async data => await processData(JSON.parse(data)))
+    .catch(error => updateError(error))
 }
 
+async function updateError(error) {
+  try{
+    document.getElementById("errorBox").remove()
+  }
+  catch{
+    console.log("Error Div Doesn't Yet")
+  }
+  console.error('Error:', error);
+  window.alert("No Such ID Found")
+  let errorDiv = document.createElement("div")
+  errorDiv.setAttribute("class", "text-center")
+  errorDiv.setAttribute("id", "errorBox")
+  document.getElementById("searchInput").after(errorDiv)
+  // let errorBox = document.getElementById("errorBox")
 
+  let errorList = document.createElement("ol")
+  errorList.setAttribute("class", "center-list")
+  errorList.innerHTML = "<h3>Possible Reasons Includes:</h3>"
+  let list1 = document.createElement("li")
+  list1.innerHTML = "Session ID / Lead ID Doesn't Exists"
+  let list2 = document.createElement("li")
+  list2.innerHTML = "Session ID / Lead ID files yet to be created &  added in S3"
+  errorList.append(list1)
+  errorList.append(list2)
+  errorDiv.append(errorList)
+
+}
 
 // ----------------------------------------------------------------------------------------------------------------------
-async function processData (out) {
+async function processData(out) {
   var hitsHITS = out['hits']['hits']
 
   var allMessages = hitsHITS.map(each => each['_source']['message'])
@@ -49,23 +77,23 @@ async function processData (out) {
   dataforDataTables(allMessages)
 
   document.getElementById('devicetype').innerText = allMessages[0]['deviceType']
-  document.getElementById('recentvisit').innerText = new Date(allMessages.at(-1)['ts']).toLocaleString()
-  document.getElementById('1stvisit').innerText = new Date(allMessages[0]['ts']).toLocaleString()
+  document.getElementById('recentvisit').innerText = new Date(allMessages.at(-1)['ts']).toDateString() + ", " + new Date(allMessages.at(-1)['ts']).toLocaleTimeString()
+  document.getElementById('1stvisit').innerText = new Date(allMessages[0]['ts']).toDateString() + ", " + new Date(allMessages[0]['ts']).toLocaleTimeString()
   document.getElementById('1stref').innerText = allMessages[0]['referrer']
-  if (allMessages[0]['url'].includes("keyword")){
-    document.getElementById('keyword').innerText = allMessages[0]['url'].substring(allMessages[0]['url'].indexOf("keyword=")+8,allMessages[0]['url'].indexOf("&",allMessages[0]['url'].indexOf("keyword=")+8))
+  if (allMessages[0]['url'].includes("keyword")) {
+    document.getElementById('keyword').innerText = allMessages[0]['url'].substring(allMessages[0]['url'].indexOf("keyword=") + 8, allMessages[0]['url'].indexOf("&", allMessages[0]['url'].indexOf("keyword=") + 8))
   }
-  
+
 }
 
-async function ipFetch (ip) {
+async function ipFetch(ip) {
   let ipurl = 'http://ip-api.com/json/' + ip
   fetch(ipurl)
     .then(response => response.json())
     .then(async ipData => await processIP(ipData))
 }
 
-async function processIP (ipdata) {
+async function processIP(ipdata) {
   let mapurl = `http://maps.google.com/maps?q=${ipdata['lat']},${ipdata['lon']}&z=7&output=embed`
   document.getElementById('ipcountry').innerText = ipdata['country']
   document.getElementById('ipregion').innerText = ipdata['regionName']
@@ -75,119 +103,118 @@ async function processIP (ipdata) {
   document.getElementById('ispIP').innerText = ipdata['isp']
   document.getElementById('ipzip').innerText = ipdata['zip']
   document.getElementById('ccode').innerText = ipdata['countryCode']
-
   document.getElementById('locamap').setAttribute('src', mapurl)
 }
 
-async function dataforDataTables(allMessages){
+async function dataforDataTables(allMessages) {
   var sec = 1000;
   var min = 60 * sec;
   var hour = 60 * min;
   var day = 24 * hour;
 
-  let timespentbuffer = 0
-for (let i = 1; i < allMessages.length;i++){
-  let start = new Date(allMessages[i-1]['ts'])
-  let end = new Date(allMessages[i]['ts'])
-  let diffBuff = end - start
-  console.log("diffbuff",diffBuff)
-  if (Math.floor(diffBuff % day % hour % min / sec)<300){
-    console.log("Start",start ,"\nend",end)
-    console.log("Seconds Different: ",Math.floor(diffBuff % day % hour % min / sec))
-    timespentbuffer += diffBuff
-  } 
-}
 
-
-var days = Math.floor(timespentbuffer / day);
-var hours = Math.floor(timespentbuffer % day / hour);
-var minutes = Math.floor(timespentbuffer % day % hour / min);
-var seconds = Math.floor(timespentbuffer % day % hour % min / sec) ;
-var timespent = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
-
-console.log(timespent)
-document.getElementById('timespent').innerText = timespent
-
-
-let uniquePagesList = []
-let bufferPageList = []
-for (msg of allMessages){
-  if (!bufferPageList.includes(msg['url'])){
-    uniquePagesList.push([msg['url']])
-    bufferPageList.push(msg['url'])
+  const allTimes = []
+  for (let timeVars of allMessages) {
+    allTimes.push(timeVars['ts'])
   }
-}
-document.getElementById('upv').innerText = uniquePagesList.length
+
+  console.log(allTimes.join(","))
+  const timespentbuffer = allTimes.slice(1).map((e, i) => allTimes[i + 1] - allTimes[i]).filter(indiTimes => indiTimes <= 120000).reduce(function (x, y) { return x + y; }, 0)
 
 
-$('#tableforUniquePages').DataTable({
-  "bInfo": false,
-  destroy: true,
-  searching: false,
-  paging: false,
-  info: false,
-  data: uniquePagesList,
-  columns: [{
-    title: "Unique Pages Visited"
-  }]
-})
+  var days = Math.floor(timespentbuffer / day);
+  var hours = Math.floor(timespentbuffer % day / hour);
+  var minutes = Math.floor(timespentbuffer % day % hour / min);
+  var seconds = Math.floor(timespentbuffer % day % hour % min / sec);
+  var timespent = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
 
-let uniqueClicks = []
-let uniqueClicksBuffer = []
-let masterArrayData = []
-for (message of allMessages){
-  let url = message['url']
-  let eachKeys = Object.keys(message)
+  console.log(timespent)
+  document.getElementById('timespent').innerText = timespent
 
-  if (eachKeys.includes('info')){
-    for (eachInfo of message['info']){
-      // console.log(eachInfo)
-      let eachInfoKeys = Object.keys(eachInfo)
-      // console.log(eachInfoKeys)
-      if (eachInfoKeys.includes('val')){
-        masterArrayData.push([url,new Date(eachInfo['tm']).toLocaleString(),eachInfo['en'],eachInfo['ep'],eachInfo['val']])
-        // console.log([url,new Date(eachInfo['tm']).toLocaleString(),eachInfo['en'],eachInfo['ep'],eachInfo['val']])
-      }
-      else{
-        masterArrayData.push([url,new Date(eachInfo['tm']).toLocaleString(),eachInfo['en'],eachInfo['ep'],""])
-      }
-      if ((eachInfo['en'] == 'click' || eachInfo['en'] == "touchstart" || eachInfo['en'] == "touchmove") && !uniqueClicksBuffer.includes(eachInfo['ep']) && eachInfo['ep'] != "/html[null]"){
-        uniqueClicks.push([eachInfo['ep']])
-        uniqueClicksBuffer.push(eachInfo['ep'])
-      }
+
+  let uniquePagesList = []
+  let bufferPageList = []
+  for (msg of allMessages) {
+    if (!bufferPageList.includes(msg['url'])) {
+      uniquePagesList.push([msg['url']])
+      bufferPageList.push(msg['url'])
     }
   }
-  else{
-    masterArrayData.push([url,new Date(message['ts']).toLocaleString(),"","",""])
-  }
-}
+  document.getElementById('upv').innerText = uniquePagesList.length
 
-$('#tableforUniqueClicks').DataTable({
-  "bInfo": false,
-  destroy: true,
-  searching: false,
-  paging: false,
-  info: false,
-  data: uniqueClicks,
-  columns: [{
-    title: " Unique Elements (clicked / touchstart / touchmove)"
-  }]
-})
+
+  $('#tableforUniquePages').DataTable({
+    order: [],
+    bInfo: false,
+    destroy: true,
+    searching: false,
+    paging: false,
+    info: false,
+    data: uniquePagesList,
+    columns: [{
+      title: "Unique Pages Visited"
+    }]
+  })
+
+  let uniqueClicks = []
+  let uniqueClicksBuffer = []
+  let masterArrayData = []
+  for (message of allMessages) {
+    let url = message['url']
+    let eachKeys = Object.keys(message)
+
+    if (eachKeys.includes('info')) {
+      for (eachInfo of message['info']) {
+        // console.log(eachInfo)
+        let eachInfoKeys = Object.keys(eachInfo)
+        // console.log(eachInfoKeys)
+        if (eachInfoKeys.includes('val')) {
+          masterArrayData.push([message['sessionId'],url, new Date(eachInfo['tm']).toLocaleString(), eachInfo['en'], eachInfo['ep'], eachInfo['val']])
+          // console.log([url,new Date(eachInfo['tm']).toLocaleString(),eachInfo['en'],eachInfo['ep'],eachInfo['val']])
+        }
+        else {
+          masterArrayData.push([message['sessionId'],url, new Date(eachInfo['tm']).toLocaleString(), eachInfo['en'], eachInfo['ep'], ""])
+        }
+        if ((eachInfo['en'] == 'click' || eachInfo['en'] == "touchstart" || eachInfo['en'] == "touchmove") && !uniqueClicksBuffer.includes(eachInfo['ep']) && eachInfo['ep'] != "/html[null]") {
+          uniqueClicks.push([eachInfo['ep']])
+          uniqueClicksBuffer.push(eachInfo['ep'])
+        }
+      }
+    }
+    else {
+      masterArrayData.push([message['sessionId'],url, new Date(message['ts']).toLocaleString(), "", "", ""])
+    }
+  }
+
+  $('#tableforUniqueClicks').DataTable({
+    order: [],
+    bInfo: false,
+    destroy: true,
+    searching: false,
+    paging: false,
+    info: false,
+    data: uniqueClicks,
+    columns: [{
+      title: " Unique Elements (clicked / touchstart / touchmove)"
+    }]
+  })
 
   $('#tableforReport').DataTable({
+    order: [],
     data: masterArrayData,
     destroy: true,
     columns: [
-        { title: 'Page URL' },
-        { title: 'Date' },
-        { title: 'Action' },
-        { title: 'Element' },
-        { title: 'Value' },
+      { title: 'Session ID' },
+      { title: 'Page URL' },
+      { title: 'Date' },
+      { title: 'Action' },
+      { title: 'Element' },
+      { title: 'Value' },
     ],
     "columnDefs": [
       { "width": "10%", "targets": 0 }
     ]
-});
+  });
 
 }
 

@@ -1,131 +1,146 @@
 <html>
-  <head>
-    <link rel="icon" type="image/x-icon" href="Logo-mind.png">
-    <meta charset="UTF-8" />
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+  <link rel="icon" type="image/x-icon" href="Logo-mind.png">
+  <meta charset="UTF-8" />
 
-    <title>Report Page</title>
-    <!--<script src="http://code.jquery.com/jquery-3.5.1.js"></script>-->
-    <script src="jquery-3.6.3.min.js"></script>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Report Page</title>
+  <!--<script src="http://code.jquery.com/jquery-3.5.1.js"></script>-->
+  <script src="jquery-3.6.3.min.js"></script>
 
 
-    <link rel="stylesheet"  href="./DataTables/datatables.css" type="text/css" media="all" />
+  <link rel="stylesheet" href="./DataTables/datatables.css" type="text/css" media="all" />
 
-    <script src="./DataTables/datatables.min.js"></script>
-    <link rel="stylesheet" href="./reportTemplate.css" type="text/css" media="all" />
-    <!--<script src="./getData.js"></script>-->
-    <script src="./main.js"></script>
-    <script src="./script.js"></script>
+  <script src="./DataTables/datatables.min.js"></script>
+  <link rel="stylesheet" href="./reportTemplate.css" type="text/css" media="all" />
+  <!--<script src="./getData.js"></script>-->
+  <script src="./main.js"></script>
+  <script src="./script.js"></script>
 
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <div class="text-center" id="searchInput">
-      <input type="text" name="sessionInput" id="searchSession" />
-      <button id="searchButton">Get Report</button>
+  <div class="text-center">
+    <h2>Enter Either a Elastic Session ID or CRM Lead ID</h2>
+  </div>
+  <ol class="center-list">
+    <li>
+      Enter Elastic Session ID to get Reoprt for a Particular Session
+    </li>
+    <li>
+      Enter CRM Lead ID to get Reoprt for a all Session of a Lead
+    </li>
+  </ol>
+
+
+  <div class="text-center" id="searchInput">
+    <input type="text" name="sessionInput" id="searchSession" placeholder="Enter a Session ID or Lead ID" size="30" />
+    <button id="searchButton">Get Report</button>
+  </div>
+
+  <div class="rowForBasic">
+    <div class="columnForBasic">
+      <table class="infoTables">
+        <th colspan="2">Lead Session Information & Source</th>
+        <tr>
+          <td>Device Type</td>
+          <td id="devicetype"></td>
+        </tr>
+
+        <tr>
+          <td>Unique Pages Visited</td>
+          <td id="upv"></td>
+        </tr>
+
+        <tr>
+          <td>Time Spent</td>
+          <td id="timespent"></td>
+        </tr>
+
+        <tr>
+          <td>Lead Source</td>
+          <td id="leadSource"></td>
+        </tr>
+
+        <tr>
+          <td>Keyword</td>
+          <td id="keyword"></td>
+        </tr>
+
+        <tr>
+          <td>First Visit</td>
+          <td id="1stvisit"></td>
+        </tr>
+
+        <tr>
+          <td>Recent Visit</td>
+          <td id="recentvisit"></td>
+        </tr>
+
+        <tr>
+          <td>First Referrer</td>
+          <td id="1stref"></td>
+        </tr>
+      </table>
     </div>
 
-    <div class="rowForBasic">
-      <div class="columnForBasic">
-        <table class="infoTables">
-          <th colspan="2">Lead Session Information & Source</th>
-          <tr>
-            <td>Device Type</td>
-            <td id="devicetype"></td>
-          </tr>
-
-          <tr>
-            <td>Unique Pages Visited</td>
-            <td id="upv"></td>
-          </tr>
-
-          <tr>
-            <td>Time Spent</td>
-            <td id="timespent"></td>
-          </tr>
-
-          <tr>
-            <td>Lead Source</td>
-            <td id="leadSource"></td>
-          </tr>
-
-          <tr>
-            <td>Keyword</td>
-            <td id="keyword"></td>
-          </tr>
-
-          <tr>
-            <td>First Visit</td>
-            <td id="1stvisit"></td>
-          </tr>
-
-          <tr>
-            <td>Recent Visit</td>
-            <td id="recentvisit"></td>
-          </tr>
-
-          <tr>
-            <td>First Referrer</td>
-            <td id="1stref"></td>
-          </tr>
-        </table>
-      </div>
-
-      <div class="columnForBasic">
-        <table class="infoTables">
-          <th colspan="2">Lead Demographics</th>
-          <tr>
-            <td>Country</td>
-            <td id="ipcountry"></td>
-          </tr>
-          <tr>
-            <td>Region</td>
-            <td id="ipregion"></td>
-          </tr>
-          <tr>
-            <td>City</td>
-            <td id="ipcity"></td>
-          </tr>
-          <tr>
-            <td>Timezone</td>
-            <td id="iptimezone"></td>
-          </tr>
-          <tr>
-            <td>Organization from IP</td>
-            <td id="orgIP"></td>
-          </tr>
-          <tr>
-            <td>Internet Service Provider</td>
-            <td id="ispIP"></td>
-          </tr>
-          <tr>
-            <td>Zip Code</td>
-            <td id="ipzip"></td>
-          </tr>
-          <tr>
-            <td>Country Code</td>
-            <td id="ccode"></td>
-          </tr>
-        </table>
-      </div>
-      <div class="columnForBasic">
-        <iframe id="locamap" class="infoTables"></iframe>
-      </div>
+    <div class="columnForBasic">
+      <table class="infoTables">
+        <th colspan="2">Lead Demographics</th>
+        <tr>
+          <td>Country</td>
+          <td id="ipcountry"></td>
+        </tr>
+        <tr>
+          <td>Region</td>
+          <td id="ipregion"></td>
+        </tr>
+        <tr>
+          <td>City</td>
+          <td id="ipcity"></td>
+        </tr>
+        <tr>
+          <td>Timezone</td>
+          <td id="iptimezone"></td>
+        </tr>
+        <tr>
+          <td>Organization from IP</td>
+          <td id="orgIP"></td>
+        </tr>
+        <tr>
+          <td>Internet Service Provider</td>
+          <td id="ispIP"></td>
+        </tr>
+        <tr>
+          <td>Zip Code</td>
+          <td id="ipzip"></td>
+        </tr>
+        <tr>
+          <td>Country Code</td>
+          <td id="ccode"></td>
+        </tr>
+      </table>
     </div>
+    <div class="columnForBasic">
+      <iframe id="locamap" class="infoTables"></iframe>
+    </div>
+  </div>
 
-    <div class="rowForBasic">
-      <div class="columnForBasic">
+  <div class="rowForBasic">
+    <div class="columnForBasic">
       <table id="tableforUniquePages" class="display" style='margin-top: 20px;margin-bottom: 20px'></table>
-      </div>
-      <div class="columnForBasic">
-      <table id="tableforUniqueClicks" class="display" style='margin-top: 20px;margin-bottom: 20px'></table>
-      </div>
     </div>
+    <div class="columnForBasic">
+      <table id="tableforUniqueClicks" class="display" style='margin-top: 20px;margin-bottom: 20px'></table>
+    </div>
+  </div>
 
-    <table id="tableforReport" class="display" width="98%" style='margin-top: 50px'></table>
+  <table id="tableforReport" class="display" width="98%" style='margin-top: 50px'></table>
 
-  </body>
+</body>
+
 </html>
