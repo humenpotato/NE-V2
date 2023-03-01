@@ -1,5 +1,5 @@
 {
-    "name": "CRM Notes Template",
+    "name": "Sales Extension",
     "version": "2.0.0",
     "description": "CRM Notes Templates",
     "content_scripts":[
@@ -15,7 +15,7 @@
     "offline_enabled": true,
     "action": { 
       "default_popup": "index.html",
-      "default_title": "CRM Notes Template",
+      "default_title": "Add CRM Notes",
       "default_icon": "Logo-mind.png"
     },
     "permissions": [

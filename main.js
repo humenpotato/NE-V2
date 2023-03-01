@@ -118,7 +118,7 @@ async function dataforDataTables(allMessages) {
     allTimes.push(timeVars['ts'])
   }
 
-  console.log(allTimes.join(","))
+  // console.log(allTimes.join(","))
   const timespentbuffer = allTimes.slice(1).map((e, i) => allTimes[i + 1] - allTimes[i]).filter(indiTimes => indiTimes <= 120000).reduce(function (x, y) { return x + y; }, 0)
 
 
@@ -218,3 +218,22 @@ async function dataforDataTables(allMessages) {
 
 }
 
+var xArray = [50,60,70,80,90,100,110,120,130,140,150];
+var yArray = [7,8,8,9,9,9,10,11,14,14,15];
+
+// Define Data
+var data = [{
+  x:xArray,
+  y:yArray,
+  mode:"markers"
+}];
+
+// Define Layout
+var layout = {
+  xaxis: {range: [40, 160], title: "Square Meters"},
+  yaxis: {range: [5, 16], title: "Price in Millions"},  
+  title: "House Prices vs. Size"
+};
+
+// Display using Plotly
+Plotly.newPlot("myPlot", data, layout);
