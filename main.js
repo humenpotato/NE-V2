@@ -1,3 +1,40 @@
+window.addEventListener('load', (event) => {
+  console.log('page is fully loaded');
+  document.getElementById('controlcenterswitch').addEventListener("change", changeTemplate)
+  // let controlCenter = document.getElementById("controlcenterswitch")
+  // controlCenter.checked = true
+  changeTemplate()
+});
+
+function changeTemplate() {
+  console.log("Trigger")
+  let sessionTemp = document.getElementById("sessionReport")
+  let masterTemp = document.getElementById("masterReport")
+  let controlCenter = document.getElementById("controlcenterswitch")
+  let sizeBlock = document.getElementById('returned')
+  sizeBlock.style.display = "none"
+  masterTemp.style.display = "none";
+  sessionTemp.style.display = " none";
+  (controlCenter.checked == true) ? (masterTemp.style.display = "block", document.getElementById("getData").addEventListener('click', makeRequestToAppscript)) : sessionTemp.style.display = 'block'
+}
+
+async function makeRequestToAppscript() {
+  // (document.getElementById("datasize").value) ? (let dataSize = document.getElementById("datasize").value) : (let dataSize = 10000);
+  let dataSize = 10000
+  if (document.getElementById("datasize").value) {
+    dataSize = document.getElementById("datasize").value
+  }
+  let start = document.getElementById("start").value + ":00"
+  let end = document.getElementById("end").value + ":00"
+  let url = "https://script.google.com/macros/s/AKfycbwXC97M6PpuqPkiLbzPUAzxqW2vlLqT_LHns8320RIxH3kdQv8o0YZjwZSTdm2_-Z8/exec?queue=0"
+
+  let reqURL = `${url}start=${start}&end=${end}&size=${dataSize}`
+  console.warn(reqURL)
+  fetch(reqURL)
+    .then(res => res.json())
+    .then(async data => await dataforDataTables_MasterReport(data['responsedata']))
+}
+
 function getParams() {
   try {
     var idx = document.URL.indexOf('?');
@@ -26,11 +63,25 @@ async function getCurrentURL(sidurl) {
 getParams()
 
 window.onload = function () {
-  var mb = document.getElementById('searchButton')
-  mb.addEventListener('click', getText)
+  var searchButton = document.getElementById('searchButton')
+  searchButton.addEventListener('click', getFromS3)
+  var searchElastic = document.getElementById('searchElastic')
+  searchElastic.addEventListener('click', GetFromElastic)
+
 }
 
-async function getText() {
+async function GetFromElastic() {
+  console.log("GetFromElastic")
+  let url = "https://script.google.com/macros/s/AKfycbwXC97M6PpuqPkiLbzPUAzxqW2vlLqT_LHns8320RIxH3kdQv8o0YZjwZSTdm2_-Z8/exec?queue=1&sessionID=" +
+    document.getElementById('searchSession').value.toString().split("_")[1]
+  console.log(url)
+  fetch(url) //api for the get request
+    .then(response => response.json())
+    .then(async data => await processData(data))
+    .catch(error => updateError(error))
+}
+
+async function getFromS3() {
   let file =
     'https://elastic-sync.s3.ap-south-1.amazonaws.com/SJSON/' + document.getElementById('searchSession').value +
     '.json'
@@ -41,10 +92,10 @@ async function getText() {
 }
 
 async function updateError(error) {
-  try{
+  try {
     document.getElementById("errorBox").remove()
   }
-  catch{
+  catch {
     console.log("Error Div Doesn't Yet")
   }
   console.error('Error:', error);
@@ -70,9 +121,10 @@ async function updateError(error) {
 
 // ----------------------------------------------------------------------------------------------------------------------
 async function processData(out) {
-  var hitsHITS = out['hits']['hits']
 
+  var hitsHITS = out['hits']['hits']
   var allMessages = hitsHITS.map(each => each['_source']['message'])
+
   ipFetch(allMessages[0]['ip'])
   dataforDataTables(allMessages)
 
@@ -80,10 +132,60 @@ async function processData(out) {
   document.getElementById('recentvisit').innerText = new Date(allMessages.at(-1)['ts']).toDateString() + ", " + new Date(allMessages.at(-1)['ts']).toLocaleTimeString()
   document.getElementById('1stvisit').innerText = new Date(allMessages[0]['ts']).toDateString() + ", " + new Date(allMessages[0]['ts']).toLocaleTimeString()
   document.getElementById('1stref').innerText = allMessages[0]['referrer']
-  if (allMessages[0]['url'].includes("keyword")) {
-    document.getElementById('keyword').innerText = allMessages[0]['url'].substring(allMessages[0]['url'].indexOf("keyword=") + 8, allMessages[0]['url'].indexOf("&", allMessages[0]['url'].indexOf("keyword=") + 8))
-  }
 
+  // let sourceIdentifierURL = "https://script.google.com/macros/s/AKfycbwXC97M6PpuqPkiLbzPUAzxqW2vlLqT_LHns8320RIxH3kdQv8o0YZjwZSTdm2_-Z8/exec?queue=3&sessionURL=" + allMessages[0]['url'] + "&sessionRefferer=" + allMessages[0]['referrer']
+  getAdData(allMessages[0]['url'], allMessages[0]['referrer'])
+  // if (allMessages[0]['url'].includes("keyword")) {
+  //   document.getElementById('keyword').innerText = allMessages[0]['url'].substring(allMessages[0]['url'].indexOf("keyword=") + 8, allMessages[0]['url'].indexOf("&", allMessages[0]['url'].indexOf("keyword=") + 8))
+  // }
+
+}
+async function getAdData(initURL, initREF) {
+  let adURL = "https://script.google.com/macros/s/AKfycbwXC97M6PpuqPkiLbzPUAzxqW2vlLqT_LHns8320RIxH3kdQv8o0YZjwZSTdm2_-Z8/exec?queue=2"
+  // console.log(adURL)
+  fetch(adURL)
+    .then(response => response.json())
+    .then(async sourceData => await processSourceData(sourceData, initURL, initREF))
+}
+async function processSourceData(sourceDataProcess, initURL, initREF) {
+  var campdetails = ""
+  var keyword = ""
+
+  console.log("processSourceData")
+  console.log(sourceDataProcess)
+  console.log(initURL)
+  console.log(initREF)
+  if (initURL.includes("&keyword=")) {
+    keyword = initURL.toString().substring(initURL.lastIndexOf("&keyword=") + 9, initURL.lastIndexOf("&device") + 50).split("&")[0]
+    console.log(keyword)
+  }
+  if (initURL.includes('campaignid')) {
+    let campid = initURL.substring(initURL.indexOf("?campaignid=") + 12, initURL.indexOf("&"))
+    console.log(campid)
+    campdetails = sourceDataProcess[campid].CAMPAIGN
+  }
+  else {
+    if (initREF != undefined || initREF != null || initREF == '') {
+
+      if (initREF.includes("https://www.google")) {
+        campdetails = "SEO"
+      }
+      else if (initREF.includes("https://www.youtube")) {
+        campdetails = "Youtube Organic"
+      }
+      else if (initREF.includes("https://www.bing")) {
+        campdetails = "SEO"
+      }
+      else {
+        campdetails = initREF
+      }
+    }
+    if (initREF == null || initREF == undefined || initREF == '') {
+      campdetails = "Direct"
+    }
+  }
+  document.getElementById('leadSource').innerText = campdetails
+  document.getElementById('keyword').innerText = keyword
 }
 
 async function ipFetch(ip) {
@@ -169,11 +271,11 @@ async function dataforDataTables(allMessages) {
         let eachInfoKeys = Object.keys(eachInfo)
         // console.log(eachInfoKeys)
         if (eachInfoKeys.includes('val')) {
-          masterArrayData.push([message['sessionId'],url, new Date(eachInfo['tm']).toLocaleString(), eachInfo['en'], eachInfo['ep'], eachInfo['val']])
+          masterArrayData.push([message['sessionId'], url, new Date(eachInfo['tm']).toLocaleString(), eachInfo['en'], eachInfo['ep'], eachInfo['val']])
           // console.log([url,new Date(eachInfo['tm']).toLocaleString(),eachInfo['en'],eachInfo['ep'],eachInfo['val']])
         }
         else {
-          masterArrayData.push([message['sessionId'],url, new Date(eachInfo['tm']).toLocaleString(), eachInfo['en'], eachInfo['ep'], ""])
+          masterArrayData.push([message['sessionId'], url, new Date(eachInfo['tm']).toLocaleString(), eachInfo['en'], eachInfo['ep'], ""])
         }
         if ((eachInfo['en'] == 'click' || eachInfo['en'] == "touchstart" || eachInfo['en'] == "touchmove") && !uniqueClicksBuffer.includes(eachInfo['ep']) && eachInfo['ep'] != "/html[null]") {
           uniqueClicks.push([eachInfo['ep']])
@@ -182,7 +284,7 @@ async function dataforDataTables(allMessages) {
       }
     }
     else {
-      masterArrayData.push([message['sessionId'],url, new Date(message['ts']).toLocaleString(), "", "", ""])
+      masterArrayData.push([message['sessionId'], url, new Date(message['ts']).toLocaleString(), "", "", ""])
     }
   }
 
@@ -218,22 +320,57 @@ async function dataforDataTables(allMessages) {
 
 }
 
-var xArray = [50,60,70,80,90,100,110,120,130,140,150];
-var yArray = [7,8,8,9,9,9,10,11,14,14,15];
+// ------------------------------------ dataforDataTables_MasterReport ---------------------------------------------
 
-// Define Data
-var data = [{
-  x:xArray,
-  y:yArray,
-  mode:"markers"
-}];
+async function dataforDataTables_MasterReport(allMessages) {
+  console.log("dataforDataTables_MasterReport")
+  let sizeBlock = document.getElementById('returned')
+  sizeBlock.style.display = "block"
+  let sizeBlockValue = document.getElementById('returneddatasize')
+  sizeBlockValue.innerHTML = allMessages.length
+  let masterArrayData = []
+  let countMessage = 1
+  for (message of allMessages) {
+    console.warn("Currently Procesing %s Message", countMessage)
+    countMessage++
+    let url = message['url']
+    let eachKeys = Object.keys(message)
 
-// Define Layout
-var layout = {
-  xaxis: {range: [40, 160], title: "Square Meters"},
-  yaxis: {range: [5, 16], title: "Price in Millions"},  
-  title: "House Prices vs. Size"
-};
+    if (eachKeys.includes('info')) {
+      for (eachInfo of message['info']) {
+        // console.log(eachInfo)
+        let eachInfoKeys = Object.keys(eachInfo)
+        // console.log(eachInfoKeys)
+        if (eachInfoKeys.includes('val')) {
+          masterArrayData.push([message['sessionId'], url, new Date(eachInfo['tm']).toLocaleString(), eachInfo['en'], eachInfo['ep'], eachInfo['val']])
+          // console.log([url,new Date(eachInfo['tm']).toLocaleString(),eachInfo['en'],eachInfo['ep'],eachInfo['val']])
+        }
+        else {
+          masterArrayData.push([message['sessionId'], url, new Date(eachInfo['tm']).toLocaleString(), eachInfo['en'], eachInfo['ep'], ""])
+        }
+      }
+    }
+    else {
+      masterArrayData.push([message['sessionId'], url, new Date(message['ts']).toLocaleString(), "", "", ""])
+    }
+  }
 
-// Display using Plotly
-Plotly.newPlot("myPlot", data, layout);
+  $('#tableforReport').DataTable({
+    // order: [],
+    "autoWidth": false,
+    data: masterArrayData,
+    destroy: true,
+    columns: [
+      { title: 'Session ID' },
+      { title: 'Page URL' },
+      { title: 'Date' },
+      { title: 'Action' },
+      { title: 'Element' },
+      { title: 'Value' },
+    ],
+    "columnDefs": [
+      { "width": "20%", "targets": 1 }
+    ]
+  });
+
+}

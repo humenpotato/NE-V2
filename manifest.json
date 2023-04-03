@@ -1,32 +1,38 @@
 {
-    "name": "Sales Extension",
-    "version": "2.0.1",
-    "description": "CRM Notes Templates",
-    "content_scripts":[
-        {
-            "matches":["*://crm.zoho.in/crm/org60006702612/tab/Leads/*"],
-            "js":["jquery-3.6.3.min.js","contentScripts.js"],
-            "run_at":"document_end" 
-        }
-    ],
-    "host_permissions" : ["<all_urls>"],
-    "manifest_version":3,
-    "author": "Naveenraj G",
-    "offline_enabled": true,
-    "action": { 
-      "default_popup": "index.html",
-      "default_title": "Add CRM Notes",
-      "default_icon": "Logo-mind.png"
-    },
-    "permissions": [
-      "clipboardWrite",
-      "activeTab",
-      "declarativeContent",
-      "storage",
-      "scripting"
-    ],
-    "commands": {
-       "_execute_action": {
-       }
+  "name": "Sales Extension",
+  "version": "3.0.0",
+  "description": "Detailed Session Report withh multiple sources & Appscript added",
+  "content_scripts": [
+    {
+      "matches": [
+        "*://crm.zoho.in/crm/org60006702612/tab/Leads/*"
+      ],
+      "js": [
+        "jquery-3.6.3.min.js",
+        "contentScripts.js"
+      ],
+      "run_at": "document_end"
     }
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "manifest_version": 3,
+  "author": "Naveenraj G",
+  "offline_enabled": true,
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Add CRM Notes",
+    "default_icon": "Logo-mind.png"
+  },
+  "permissions": [
+    "clipboardWrite",
+    "activeTab",
+    "declarativeContent",
+    "storage",
+    "scripting"
+  ],
+  "commands": {
+    "_execute_action": {}
+  }
 }
