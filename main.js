@@ -152,7 +152,7 @@ async function processSourceData(sourceDataProcess, initURL, initREF) {
   var keyword = ""
 
   console.log("processSourceData")
-  console.log(sourceDataProcess)
+  // console.log(sourceDataProcess)
   console.log(initURL)
   console.log(initREF)
   if (initURL.includes("&keyword=")) {
@@ -301,8 +301,7 @@ async function dataforDataTables(allMessages) {
     }]
   })
 
-  $('#tableforReport').DataTable({
-    order: [],
+  var reportTable = $('#tableforReport').DataTable({
     data: masterArrayData,
     destroy: true,
     columns: [
@@ -312,14 +311,94 @@ async function dataforDataTables(allMessages) {
       { title: 'Action' },
       { title: 'Element' },
       { title: 'Value' },
-    ],
-    "columnDefs": [
-      { "width": "10%", "targets": 0 }
     ]
   });
 
-}
+  document.getElementById('sessionHide').addEventListener('click', function (e) {
 
+    console.log("Clicked in SESSION HIDE COLUMN", $(this).attr('data-column'))
+
+    // Get the column API object
+    var column = reportTable.column($(this).attr('data-column'));
+
+    // Toggle the visibility
+    column.visible(!column.visible());
+  });
+  document.getElementById('urlHide').addEventListener('click', function (e) {
+
+    console.log("Clicked in URL HIDE COLUMN", $(this).attr('data-column'))
+
+    // Get the column API object
+    var column = reportTable.column($(this).attr('data-column'));
+
+    // Toggle the visibility
+    column.visible(!column.visible());
+  });
+  document.getElementById('dateHide').addEventListener('click', function (e) {
+
+    console.log("Clicked in DATE HIDE COLUMN", $(this).attr('data-column'))
+
+    // Get the column API object
+    var column = reportTable.column($(this).attr('data-column'));
+
+    // Toggle the visibility
+    column.visible(!column.visible());
+  });
+  document.getElementById('actionHide').addEventListener('click', function (e) {
+
+    console.log("Clicked in ACTION HIDE COLUMN", $(this).attr('data-column'))
+
+    // Get the column API object
+    var column = reportTable.column($(this).attr('data-column'));
+
+    // Toggle the visibility
+    column.visible(!column.visible());
+  });
+  document.getElementById('elementHide').addEventListener('click', function (e) {
+
+    console.log("Clicked in ELEMENT HIDE COLUMN", $(this).attr('data-column'))
+
+    // Get the column API object
+    var column = reportTable.column($(this).attr('data-column'));
+
+    // Toggle the visibility
+    column.visible(!column.visible());
+  });
+  document.getElementById('valueHide').addEventListener('click', function (e) {
+
+    console.log("Clicked in VALUE HIDE COLUMN", $(this).attr('data-column'))
+
+    // Get the column API object
+    var column = reportTable.column($(this).attr('data-column'));
+
+    // Toggle the visibility
+    column.visible(!column.visible());
+  });
+  $('#container').css('display', 'block');
+  reportTable.columns.adjust().draw();
+  // reportTable.columns([0, 1, 2, 3, 4, 5]).visible(false, false);
+  // reportTable.columns.adjust().draw(true);
+}
+// window.addEventListener('load', (event) => {
+//   document.getElementById('sessionidhide').addEventListener("change", changeTemplate)
+//   document.getElementById('urlhide').addEventListener("click", hideURLColumn)
+//   document.getElementById('datehide').addEventListener("change", changeTemplate)
+//   document.getElementById('actionhide').addEventListener("change", changeTemplate)
+//   document.getElementById('elementhide').addEventListener("change", changeTemplate)
+//   document.getElementById('valuehide').addEventListener("change", changeTemplate)
+//   // let controlCenter = document.getElementById("controlcenterswitch")
+//   // controlCenter.checked = true
+//   changeTemplate()
+// });
+
+// function hideURLColumn() {
+//   console.log("Clicked in HIDE URL COLUMN")
+//   let table = document.getElementById("tableforReport").DataTable()
+//   var column = table.column(1);
+
+//   // Toggle the visibility
+//   column.visible(!column.visible());
+// }
 // ------------------------------------ dataforDataTables_MasterReport ---------------------------------------------
 
 async function dataforDataTables_MasterReport(allMessages) {
