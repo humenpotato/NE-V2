@@ -260,7 +260,7 @@ const initforNotes = function () {
                 </option>
                 <option value="S. Daniel">S. Daniel</option>
                 <option value="Suhas M.">Suhas M.</option>
-                <option value="Kanupriya S.">Kanupriya S.</option>
+                <option value="Aryahi K.">Aryahi K.</option>
                 <option value="Anamika S.">Anamika S.</option>
                 <option value="Naveenraj">Naveenraj</option>
               </select>
@@ -402,7 +402,7 @@ const initforNotes = function () {
                 </option>
                 <option value="S. Daniel">S. Daniel</option>
                 <option value="Suhas M.">Suhas M.</option>
-                <option value="Kanupriya S.">Kanupriya S.</option>
+                <option value="Aryahi K.">Aryahi K.</option>
                 <option value="Anamika S.">Anamika S.</option>
                 <option value="Naveenraj">Naveenraj</option>
               </select>
@@ -523,7 +523,7 @@ const initforNotes = function () {
                 </option>
                 <option value="S. Daniel">S. Daniel</option>
                 <option value="Suhas M.">Suhas M.</option>
-                <option value="Kanupriya S.">Kanupriya S.</option>
+                <option value="Aryahi K.">Aryahi K.</option>
                 <option value="Anamika S.">Anamika S.</option>
                 <option value="Naveenraj">Naveenraj</option>
               </select>
@@ -654,7 +654,7 @@ const initforNotes = function () {
                 </option>
                 <option value="S. Daniel">S. Daniel</option>
                 <option value="Suhas M.">Suhas M.</option>
-                <option value="Kanupriya S.">Kanupriya S.</option>
+                <option value="Aryahi K.">Aryahi K.</option>
                 <option value="Anamika S.">Anamika S.</option>
                 <option value="Naveenraj">Naveenraj</option>
               </select>
