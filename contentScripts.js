@@ -1,3 +1,54 @@
+var myTimeout = window.setInterval(initforTime, 1000);
+
+window.addEventListener('load', function () {
+  myTimeout = window.setInterval(initforTime, 1000)
+  myTimeout2 = window.setInterval(initforTime, 1000)
+})
+
+// window.addEventListener('popstate', function (event) {
+// this.window.clearInterval(myTimeout) 
+// });
+
+function stopUpdatingTimezone() {
+  console.error("Stopping Interval")
+  window.clearInterval(myTimeout);
+  window.clearInterval(myTimeout);
+  window.clearInterval(myTimeout2);
+}
+function initforTime() {
+  // console.error("Runs Here")
+  var fax = document.getElementById('subvalue_FAX');
+  if (fax !== null) {
+    var faxValue = fax.innerText;
+  }
+  try {
+    var today = new Date().toLocaleString("en-IN", { timeZone: faxValue, dateStyle: "medium", timeStyle: "medium" })
+  } catch (error) {
+    // // window.alert("Error")
+    // // console.error(error)
+    // if (error instanceof RangeError) {
+    //   new Notification(error.name, {
+    //     body: error.message
+    //   })
+    // }
+    stopUpdatingTimezone()
+    return
+  }
+  // let secElement = document.getElementById('newleft_History')
+  // let secElement = document.getElementById('headervalue_COMPANY')
+  let secElement = document.getElementById('fixedBtn')
+  let deleteDiv = document.getElementById('timezome-currenttime-value');
+  (deleteDiv !== null) ? deleteDiv.remove() : ""
+
+  let timeDiv = document.createElement('h3')
+  timeDiv.innerHTML = today
+  timeDiv.style.textAlign = "left"
+  timeDiv.style.marginLeft = '2%';
+  timeDiv.id = 'timezome-currenttime-value';
+  (secElement !== null) ? secElement.before(timeDiv) : ""
+}
+
+
 const initforNotes = function () {
   const injectElement = document.createElement('div')
   injectElement.id = 'new-rustyZone-element'
@@ -39,6 +90,7 @@ const initforNotes = function () {
       </style>
       <br>
       <div>
+        <p id='timezome-currenttime-value'></p>
         <h2 class="text-center">CRM Notes</h2>
       </div>
       <!--<a href="./report.html" target="_blank" class="text-center"><button class="text-center">Session Report</button></a>-->
@@ -636,6 +688,10 @@ const initforNotes = function () {
 }
 
 document.addEventListener('keydown', evt => {
+
+  if ((evt.key === 't' || evt.key === 'T') && evt.shiftKey) {
+    initforTime()
+  }
   if ((evt.key === 'n' || evt.key === 'N') && evt.altKey) {
     try {
       document.getElementById('new-rustyZone-element').remove()
@@ -664,7 +720,7 @@ document.addEventListener('keydown', evt => {
     demo.style.display = 'none'
 
     // reset function
-    async function resetTemplate () {
+    async function resetTemplate() {
       //   hide everything on reset & reinitiate
       var emailfrs = document.getElementById('emailsform')
       emailfrs.reset()
@@ -676,7 +732,7 @@ document.addEventListener('keydown', evt => {
       demofrs.reset()
     }
 
-    async function getOption () {
+    async function getOption() {
       resetTemplate()
       let selectElement = document.querySelector('#action')
       output = selectElement.value
@@ -701,7 +757,7 @@ document.addEventListener('keydown', evt => {
       }
     }
 
-    async function getformDetails () {
+    async function getformDetails() {
       selectElement = document.querySelector('#action')
       output = selectElement.value
 
@@ -798,7 +854,7 @@ document.addEventListener('keydown', evt => {
     })
 
     // -------------------------------------------------------------------------------
-    async function pushintoTextBox () {
+    async function pushintoTextBox() {
       selectElement = document.querySelector('#action')
       output = selectElement.value
 
