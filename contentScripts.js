@@ -1,8 +1,33 @@
-var myTimeout = window.setInterval(initforTime, 1000);
+function openInDan() {
+  var emailID = document.getElementById('subvalue_EMAIL').innerText;
+  // var danUser = localStorage.getItem('danuser')
+  // console.error(danUser)
+  var danUser = 2 //localStorage.getItem('danuser')
+  window.open(`https://mail.google.com/mail/u/${danUser}/#search/${emailID}+-gmass`)
+
+}
+
+function openInDiana() {
+  var emailID = document.getElementById('subvalue_EMAIL').innerText;
+  // var danUser = localStorage.getItem('danuser')
+  // console.error(danUser)
+  var dianaUser = 3 //localStorage.getItem('dianaUser')
+  window.open(`https://mail.google.com/mail/u/${dianaUser}/#search/${emailID}+-gmass`)
+
+}
+
+var intervalID; // Declare the interval ID globally
+window.onload = function () {
+
+
+  // var myTimeout = window.setInterval(initforTime, 1000);
+};
+
 
 window.addEventListener('load', function () {
-  myTimeout = window.setInterval(initforTime, 1000)
-  myTimeout2 = window.setInterval(initforTime, 1000)
+  intervalID = window.setInterval(initforTime, 1000); // Change the interval duration as needed
+  // myTimeout = window.setInterval(initforTime, 1000)
+  // myTimeout2 = window.setInterval(initforTime, 1000)
 })
 
 // window.addEventListener('popstate', function (event) {
@@ -10,10 +35,10 @@ window.addEventListener('load', function () {
 // });
 
 function stopUpdatingTimezone() {
-  console.error("Stopping Interval")
-  window.clearInterval(myTimeout);
-  window.clearInterval(myTimeout);
-  window.clearInterval(myTimeout2);
+  // console.error("Stopping Interval")
+  window.clearInterval(intervalID);
+  // window.clearInterval(myTimeout);
+  // window.clearInterval(myTimeout2);
 }
 function initforTime() {
   // console.error("Runs Here")
@@ -36,15 +61,17 @@ function initforTime() {
   }
   // let secElement = document.getElementById('newleft_History')
   // let secElement = document.getElementById('headervalue_COMPANY')
-  let secElement = document.getElementById('fixedBtn')
+  let secElement = document.getElementById('btn_send_mail')
   let deleteDiv = document.getElementById('timezome-currenttime-value');
   (deleteDiv !== null) ? deleteDiv.remove() : ""
 
   let timeDiv = document.createElement('h3')
   timeDiv.innerHTML = today
-  timeDiv.style.textAlign = "left"
-  timeDiv.style.marginLeft = '2%';
+  // timeDiv.style.textAlign = "left"
+  // timeDiv.style.marginLeft = '2%';
+  timeDiv.style.float = "left !important"
   timeDiv.id = 'timezome-currenttime-value';
+  // timeDiv.style.marginLeft = "5%"
   (secElement !== null) ? secElement.before(timeDiv) : ""
 }
 
@@ -687,8 +714,19 @@ const initforNotes = function () {
   }
 }
 
+document.addEventListener('visibilitychange', function (ev) {
+  console.warn("Focus Off the Page")
+  clearInterval(intervalID)
+});
+
 document.addEventListener('keydown', evt => {
 
+  if ((evt.key === 'd' || evt.key === 'D') && evt.shiftKey) {
+    openInDan()
+  }
+  if ((evt.key === 'd' || evt.key === 'D') && evt.shiftKey && evt.altKey) {
+    openInDiana()
+  }
   if ((evt.key === 't' || evt.key === 'T') && evt.shiftKey) {
     initforTime()
   }

@@ -144,6 +144,12 @@ async function getformDetails() {
 }
 
 document.addEventListener('keydown', evt => {
+  if ((evt.key === 't' || evt.key === 'T') && evt.shiftKey) {
+    window.open('allTimes.html')
+  }
+  if ((evt.key === 's' || evt.key === 'S') && evt.shiftKey) {
+    window.open('settings.html')
+  }
   if ((evt.key === 'e' || evt.key === 'E') && evt.shiftKey) {
     //    alert('You have been detected, you have pressed Ctrl+C');
     chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
