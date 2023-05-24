@@ -115,7 +115,9 @@ ol.center-list {
   width: 50%;
 } */
 
-#searchButton {
+#searchButton,
+#searchElastic,
+#searchElasticIP {
   background-color: black;
   /* background-color: #4CAF50; Green */
   border: none;
@@ -127,7 +129,9 @@ ol.center-list {
   margin: 5px;
 }
 
-#searchButton:hover {
+#searchButton:hover,
+#searchElastic:hover,
+#searchElasticIP:hover {
   background-color: #4caf50;
   color: white;
 }

@@ -28,7 +28,7 @@ async function makeRequestToAppscript() {
   let end = document.getElementById("end").value + ":00"
   let url = "https://script.google.com/macros/s/AKfycbwXC97M6PpuqPkiLbzPUAzxqW2vlLqT_LHns8320RIxH3kdQv8o0YZjwZSTdm2_-Z8/exec?queue=0"
 
-  let reqURL = `${url}start=${start}&end=${end}&size=${dataSize}`
+  let reqURL = `${url}&start=${start}&end=${end}&size=${dataSize}`
   console.warn(reqURL)
   fetch(reqURL)
     .then(res => res.json())
@@ -67,18 +67,99 @@ window.onload = function () {
   searchButton.addEventListener('click', getFromS3)
   var searchElastic = document.getElementById('searchElastic')
   searchElastic.addEventListener('click', GetFromElastic)
+  document.getElementById("searchElasticIP").addEventListener('click', IPGetFromElastic)
+}
 
+async function IPGetFromElastic() {
+  console.log("IP GetFromElastic")
+  let hit_url = 'http://elastic.morphlelabs.com:9200/message/_search'
+
+  var raw = JSON.stringify({
+    "sort": [
+      {
+        "message.ts": {
+          "order": "asc"
+        }
+      }
+    ],
+    "size": 5000,
+    "query": {
+      "bool": {
+        "must": [
+          {
+            "match": {
+              "message.ip.keyword": document.getElementById('searchSession').value
+            }
+          }
+        ]
+      }
+    }
+  });
+  var requestOptions = {
+    method: 'POST',
+    headers: {
+      "Authorization": "Basic ZWxhc3RpYzptb3JwaGxlaXN3b3c=",
+      "Content-Type": "application/json"
+    },
+    body: raw,
+    redirect: 'follow'
+  };
+
+  fetch(hit_url, requestOptions)
+    .then(response => response.json())
+    .then(result => processData(result))
+    .catch(error => alert(error));
 }
 
 async function GetFromElastic() {
   console.log("GetFromElastic")
-  let url = "https://script.google.com/macros/s/AKfycbwXC97M6PpuqPkiLbzPUAzxqW2vlLqT_LHns8320RIxH3kdQv8o0YZjwZSTdm2_-Z8/exec?queue=1&sessionID=" +
-    document.getElementById('searchSession').value.toString().split("_")[1]
-  console.log(url)
-  fetch(url) //api for the get request
+  let sid = document.getElementById('searchSession').value
+  if (sid.includes("_")) {
+    sid = sid.split("_")[1]
+    alert(sid)
+  }
+  let hit_url = 'http://elastic.morphlelabs.com:9200/message/_search'
+  var raw = JSON.stringify({
+    "sort": [
+      {
+        "message.ts": {
+          "order": "asc"
+        }
+      }
+    ],
+    "size": 5000,
+    "query": {
+      "bool": {
+        "must": [
+          {
+            "match": {
+              "message.sessionId.keyword": sid
+            }
+          }
+        ]
+      }
+    }
+  });
+
+  var requestOptions = {
+    method: 'POST',
+    headers: {
+      "Authorization": "Basic ZWxhc3RpYzptb3JwaGxlaXN3b3c=",
+      "Content-Type": "application/json"
+    },
+    body: raw,
+    redirect: 'follow'
+  };
+
+  fetch("http://elastic.morphlelabs.com:9200/message/_search", requestOptions)
     .then(response => response.json())
-    .then(async data => await processData(data))
-    .catch(error => updateError(error))
+    .then(result => processData(result))
+    .catch(error => alert(error));
+
+  // fetch(hit_url, options) //api for the get request
+  //   .then(response => response.json())
+  //   .then(async data => await processData(data))
+  //   .catch(error => updateError(error))
 }
 
 async function getFromS3() {
@@ -124,6 +205,14 @@ async function processData(out) {
 
   var hitsHITS = out['hits']['hits']
   var allMessages = hitsHITS.map(each => each['_source']['message'])
+  // alert(allMessages[0]['ip'])
+
+  for (let eachIP of allMessages) {
+    if (eachIP['ip'] == '0000:0000:0000:0000:0000:ffff:b1bf:6726') {
+      console.error(eachIP['ip'])
+    }
+  }
+
 
   ipFetch(allMessages[0]['ip'])
   dataforDataTables(allMessages)

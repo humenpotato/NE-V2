@@ -1,4 +1,4 @@
-function openInDan() {
+async function openInDan() {
   var emailID = document.getElementById('subvalue_EMAIL').innerText;
   // var danUser = localStorage.getItem('danuser')
   // console.error(danUser)
@@ -7,7 +7,7 @@ function openInDan() {
 
 }
 
-function openInDiana() {
+async function openInDiana() {
   var emailID = document.getElementById('subvalue_EMAIL').innerText;
   // var danUser = localStorage.getItem('danuser')
   // console.error(danUser)
@@ -17,15 +17,16 @@ function openInDiana() {
 }
 
 var intervalID; // Declare the interval ID globally
-window.onload = function () {
+// window.onload = function () {
 
 
-  // var myTimeout = window.setInterval(initforTime, 1000);
-};
+//   // var myTimeout = window.setInterval(initforTime, 1000);
+// };
 
 
 window.addEventListener('load', function () {
   intervalID = window.setInterval(initforTime, 1000); // Change the interval duration as needed
+  // intervalID = window.setInterval(initforTime, 60000); // Change the interval duration as needed
   // myTimeout = window.setInterval(initforTime, 1000)
   // myTimeout2 = window.setInterval(initforTime, 1000)
 })
@@ -34,13 +35,13 @@ window.addEventListener('load', function () {
 // this.window.clearInterval(myTimeout) 
 // });
 
-function stopUpdatingTimezone() {
+async function stopUpdatingTimezone() {
   // console.error("Stopping Interval")
   window.clearInterval(intervalID);
   // window.clearInterval(myTimeout);
   // window.clearInterval(myTimeout2);
 }
-function initforTime() {
+async function initforTime() {
   // console.error("Runs Here")
   var fax = document.getElementById('subvalue_FAX');
   if (fax !== null) {
@@ -714,14 +715,14 @@ const initforNotes = function () {
   }
 }
 
-document.addEventListener('visibilitychange', function (ev) {
-  console.warn("Focus Off the Page")
-  clearInterval(intervalID)
-});
+// document.addEventListener('visibilitychange', function (ev) {
+//   console.warn("Focus Off the Page")
+//   clearInterval(intervalID)
+// });
 
 document.addEventListener('keydown', evt => {
 
-  if ((evt.key === 'd' || evt.key === 'D') && evt.shiftKey) {
+  if ((evt.key === 'd' || evt.key === 'D') && evt.shiftKey && !evt.altKey) {
     openInDan()
   }
   if ((evt.key === 'd' || evt.key === 'D') && evt.shiftKey && evt.altKey) {
@@ -729,6 +730,9 @@ document.addEventListener('keydown', evt => {
   }
   if ((evt.key === 't' || evt.key === 'T') && evt.shiftKey) {
     initforTime()
+  }
+  if ((evt.key === 't' || evt.key === 'T') && evt.shiftKey && evt.altKey) {
+    clearInterval(intervalID)
   }
   if ((evt.key === 'n' || evt.key === 'N') && evt.altKey) {
     try {
