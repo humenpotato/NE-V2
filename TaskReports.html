@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/x-icon" href="Logo-mind.png" />
+
+        <title>Task Report</title>
+
+        <!-- import TaskReport.js -->
+        <script src="TaskReports.js"></script>
+
+        <!-- import TaskReport.css -->
+        <link rel="stylesheet" href="TaskReports.css">
+        <link rel="stylesheet"
+            href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap">
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script
+            src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    </head>
+    <body>
+        <h1>Tasks Report Dashboard</h1>
+        <label for="ownerSelect">Select Task Owner:</label>
+        <select id="ownerSelect">
+            <option value="all">All Owners</option>
+        </select>
+        <div id="jsonContainer"></div>
+
+        <!-- <div class="section"> -->
+        <!-- <table id="dashboard"></table> -->
+        <div id="tableplotly"></div>
+        <!-- </div> -->
+        <div id="2weekmyPlot"></div>
+        <div class="container">
+            <div id="OverAllPie" class="section"></div>
+            <div id="CurrentPie" class="section"></div>
+        </div>
+        <!-- <div id="section"> -->
+        <!-- </div> -->
+
+    </body>
+</html>
