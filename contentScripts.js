@@ -722,9 +722,9 @@ const initforNotes = function () {
 
 document.addEventListener('keydown', evt => {
 
-  if ((evt.key === 'd' || evt.key === 'D') && evt.shiftKey && !evt.altKey) {
-    openInDan()
-  }
+  // if ((evt.key === 'd' || evt.key === 'D') && evt.shiftKey && !evt.altKey) {
+  //   openInDan()
+  // }
   if ((evt.key === 'd' || evt.key === 'D') && evt.shiftKey && evt.altKey) {
     openInDiana()
   }
