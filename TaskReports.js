@@ -2,6 +2,7 @@
 Date.prototype.NDaysBefore = function (n) {
     return new Date(this - (86400000 * n)).toLocaleDateString();
 }
+
 String.prototype.MakeDatesLocalString = function () {
     newTicketDate = new Date(this)
     // Get year, month, and day part from the date
@@ -40,18 +41,16 @@ function transposeArray(array) {
     return array[0].map((col, i) => array.map(row => row[i]));
 }
 
-
-
 // Global Variables
 var reportStartDate = new Date().NDaysBefore(13)
 var todaysDate = new Date().toLocaleDateString()
 const allDatesFor2Weeks = getPast14Days()
 
-function splitToStoreInLocalStorage() {
+async function splitToStoreInLocalStorage() {
     console.log("Splitting Data")
     let start = new Date()
     console.log("Start : ", start.toLocaleString())
-    fetch("All_Tasks_5_27_2023_9_20_48PM.json")
+    await fetch("https://script.google.com/macros/s/AKfycbyOTvgT6gfuTryE15SNJvKK_4ISCQ7HQsxPtNQPkkqC5KkQukzdRGdWJ15tk6I8wEP3/exec?queue=0")
         .then(data => data.json())
         .then(result => {
             let BufferIDs = []
@@ -96,6 +95,8 @@ function splitToStoreInLocalStorage() {
             let end = new Date()
             console.log("End : ", end)
             console.log("Time Taken", (end - start) / 1000, "seconds")
+            generateOwnerOptions()
+            readAllDataForOwner()
         })
 }
 
@@ -401,6 +402,7 @@ function readAllDataForOwner() {
 // Generate the dashboard on page load
 window.onload = function () {
     // splitToStoreInLocalStorage()
+    document.getElementById("getLatestTasks").addEventListener("click", splitToStoreInLocalStorage)
     generateOwnerOptions()
     document.getElementById('ownerSelect').addEventListener('change', readAllDataForOwner)
     readAllDataForOwner()

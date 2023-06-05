@@ -25,3 +25,8 @@ h1 {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
 } */
+
+.getLatestTasks {
+  margin: 1%;
+  padding: 1%;
+}
