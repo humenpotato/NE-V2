@@ -1,464 +1,485 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <title>CRM Notes Template</title>
-  <link rel="icon" type="image/x-icon" href="Logo-mind.png" />
+  <head>
+    <title>CRM Notes Template</title>
+    <link rel="icon" type="image/x-icon" href="Logo-mind.png" />
 
-  <meta charset="utf-8" />
-  <link rel="shortcut icon" href="#" />
-  <link rel="stylesheet" href="./index.css" />
-  <link rel="stylesheet" href="./reportTemplate.css" type="text/css" media="all" />
-</head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="#" />
+    <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="./reportTemplate.css" type="text/css"
+      media="all" />
+  </head>
 
-<body>
-  <div class="columnForBasic">
-    <a id="flyURL" href="./report.html" target="_blank"><button class="button button1" id="flyURlBut"></button></a>
-  </div>
+  <body>
+    <div class="columnForBasic">
+      <a id="flyURL" href="./report.html" target="_blank"><button
+          class="button button1" id="flyURlBut"></button></a>
+      <button><a href="./TaskReports.html" target="_blank">Tasks Report</a></button>
+    </div>
 
-  <div>
-    <h2 class="text-center">CRM Notes</h2>
-  </div>
-  <!--<a href="./report.html" target="_blank" class="text-center"><button class="text-center">Session Report</button></a>-->
-  <div class="text-center">
-    <label for="action-select"></label>
-    <select name="action" id="action">
-      <option value="null" disabled selected>Select an Action</option>
-      <option value="Call Notes">Call Notes</option>
-      <option value="Email Notes">Email Notes</option>
-      <option value="WhatsApp Notes">WhatsApp Notes</option>
-      <option value="Demo Notes">Demo Notes</option>
-    </select>
-  </div>
-  <br />
+    <div>
+      <h2 class="text-center">CRM Notes</h2>
+    </div>
+    <!--<a href="./report.html" target="_blank" class="text-center"><button class="text-center">Session Report</button></a>-->
+    <div class="text-center">
+      <label for="action-select"></label>
+      <select name="action" id="action">
+        <option value="null" disabled selected>Select an Action</option>
+        <option value="Call Notes">Call Notes</option>
+        <option value="Email Notes">Email Notes</option>
+        <option value="WhatsApp Notes">WhatsApp Notes</option>
+        <option value="Demo Notes">Demo Notes</option>
+      </select>
+    </div>
+    <br />
 
-  <!------------------------------------------------------------------------------------------------------------------------>
-  <!--<div class="template-output" id="template-output"></div>-->
-  <section id="callSection">
-    <form id="callsform">
-      <!-- <p>
+    <!------------------------------------------------------------------------------------------------------------------------>
+    <!--<div class="template-output" id="template-output"></div>-->
+    <section id="callSection">
+      <form id="callsform">
+        <!-- <p>
             <label>Lead Id : <input id="leadid" name="Lead Id"></label>
         </p> -->
-      <p>
-        <label>Call Stage :
-          <select name="Call Stage" id="Call Stage" required>
-            <option value="" disabled selected>Choose Stage</option>
-            <option value="Activated Call">Activated Call</option>
-            <option value="Incoming Call">Incoming Call</option>
+        <p>
+          <label>Call Stage :
+            <select name="Call Stage" id="Call Stage" required>
+              <option value disabled selected>Choose Stage</option>
+              <option value="Activated Call">Activated Call</option>
+              <option value="Incoming Call">Incoming Call</option>
+              <option value="1st Call">1st Call</option>
+              <option value="2nd Call">2nd Call</option>
+              <option value="3rd Call">3rd Call</option>
+              <option value="4th Call">4th Call</option>
+              <option value="5th Call">5th Call</option>
+            </select>
+          </label>
+        </p>
+        <p>
+          <label>Time of the Call :
+            <input name="Date & Time of the Call" id="date"
+              type="datetime-local" required /></label>
+        </p>
+        <p>
+          <label>Call Result :
+            <select name="Call Result" id="callResult" required>
+              <option value disabled selected>⁉️</option>
+              <option value="Interested">Interested</option>
+              <option value="Invalid Number">Invalid Number</option>
+              <option value="No Response-Busy">No Response or Busy</option>
+              <option value="Not Interested">Not Interested</option>
+              <option value="Requested Call Back">Requested Call Back</option>
+              <option value="Requested More Info">Requested More Info</option>
+            </select>
+          </label>
+        </p>
+        <p>
+          <label>Call Validity / Mood :
+            <select name="Call Validity" id="Call Validity" required>
+              <option value disabled selected>Select Validity</option>
+              <option value="Spicy">Data Missing</option>
+              <option value="Spicy">Spicy</option>
+              <option value="Dicy">Dicy</option>
+              <option value="Icy">Icy</option>
+              <option value="Pricy">Pricy</option>
+              <option value="Chameleon">Chameleon</option>
+              <option value="Never">Never</option>
+              <option value="Junk">Junk</option>
+            </select>
+          </label>
+        </p>
+        <p>
+          <label>Duration of the Call :
+            <input rows="5" cols="60" name=" Min : " type="number" value="00"
+              min="00" max="60" />Min<input name=" Sec"
+              value="00" type="number" min="0" max="60" attr />Sec</label>
+        </p>
+        <p>
+          <label>Call Transcript : <br />
+            <textarea style="height: 100px; width: 98%" id="call-Transcript"
+              name="Call Transcript"
+              placeholder="Type the transcription of your call" required></textarea>
+          </label>
+        </p>
+        <p>
+          <label>Next Action : </label>
+          <input list="nextAction" type="text" name="Next Action"
+            id="Next Action" placeholder="Choose Next Action" />
+
+          <datalist id="nextAction">
+            <option value="Product Demo">Product Demo</option>
+            <option value="Follow up Call">Follow up Call</option>
+            <option value="Follow up Email">Follow up Email</option>
+            <option value="Follow up WhatsApp">Follow up WhatsApp</option>
             <option value="1st Call">1st Call</option>
             <option value="2nd Call">2nd Call</option>
             <option value="3rd Call">3rd Call</option>
             <option value="4th Call">4th Call</option>
             <option value="5th Call">5th Call</option>
-          </select>
-        </label>
-      </p>
-      <p>
-        <label>Time of the Call :
-          <input name="Date & Time of the Call" id="date" type="datetime-local" required /></label>
-      </p>
-      <p>
-        <label>Call Result :
-          <select name="Call Result" id="callResult" required>
-            <option value="" disabled selected>⁉️</option>
-            <option value="Interested">Interested</option>
-            <option value="Invalid Number">Invalid Number</option>
-            <option value="No Response-Busy">No Response or Busy</option>
-            <option value="Not Interested">Not Interested</option>
-            <option value="Requested Call Back">Requested Call Back</option>
-            <option value="Requested More Info">Requested More Info</option>
-          </select>
-        </label>
-      </p>
-      <p>
-        <label>Call Validity / Mood :
-          <select name="Call Validity" id="Call Validity" required>
-            <option value="" disabled selected>Select Validity</option>
-            <option value="Spicy">Data Missing</option>
-            <option value="Spicy">Spicy</option>
-            <option value="Dicy">Dicy</option>
-            <option value="Icy">Icy</option>
-            <option value="Pricy">Pricy</option>
-            <option value="Chameleon">Chameleon</option>
-            <option value="Never">Never</option>
-            <option value="Junk">Junk</option>
-          </select>
-        </label>
-      </p>
-      <p>
-        <label>Duration of the Call :
-          <input rows="5" cols="60" name=" Min : " type="number" value="00" min="00" max="60" />Min<input name=" Sec"
-            value="00" type="number" min="0" max="60" attr />Sec</label>
-      </p>
-      <p>
-        <label>Call Transcript : <br />
-          <textarea style="height: 100px; width: 98%" id="call-Transcript" name="Call Transcript"
-            placeholder="Type the transcription of your call" required></textarea>
-        </label>
-      </p>
-      <p>
-        <label>Next Action : </label>
-        <input list="nextAction" type="text" name="Next Action" id="Next Action" placeholder="Choose Next Action" />
+            <option value="1st Email">1st Email</option>
+            <option value="2nd Email">2nd Email</option>
+            <option value="3rd Email">3rd Email</option>
+            <option value="4th Email">4th Email</option>
+            <option value="5th Email">5th Email</option>
+            <option value="1st WhatsApp">1st WhatsApp</option>
+            <option value="2nd WhatsApp">2nd WhatsApp</option>
+            <option value="3rd WhatsApp">3rd WhatsApp</option>
+            <option value="4th WhatsApp">4th WhatsApp</option>
+            <option value="5th WhatsApp">5th WhatsApp</option>
+          </datalist>
+        </p>
+        <p>
+          <label>Next Action on :
+            <input name="Next Action on" id="date" type="datetime-local"
+              required /></label>
+        </p>
+        <p>
+          <label>Next Action by :
+            <select name="Next Action by" id="Next Action by" required>
+              <option value disabled selected>
+                Next Action to be done by
+              </option>
+              <option value="S. Daniel">S. Daniel</option>
+              <option value="Suhas M.">Suhas M.</option>
+              <option value="Aryahi K.">Aryahi K.</option>
+              <option value="Anamika S.">Anamika S.</option>
+              <option value="Naveenraj">Naveenraj</option>
+            </select>
+          </label>
+        </p>
+      </form>
+    </section>
 
-        <datalist id="nextAction">
-          <option value="Product Demo">Product Demo</option>
-          <option value="Follow up Call">Follow up Call</option>
-          <option value="Follow up Email">Follow up Email</option>
-          <option value="Follow up WhatsApp">Follow up WhatsApp</option>
-          <option value="1st Call">1st Call</option>
-          <option value="2nd Call">2nd Call</option>
-          <option value="3rd Call">3rd Call</option>
-          <option value="4th Call">4th Call</option>
-          <option value="5th Call">5th Call</option>
-          <option value="1st Email">1st Email</option>
-          <option value="2nd Email">2nd Email</option>
-          <option value="3rd Email">3rd Email</option>
-          <option value="4th Email">4th Email</option>
-          <option value="5th Email">5th Email</option>
-          <option value="1st WhatsApp">1st WhatsApp</option>
-          <option value="2nd WhatsApp">2nd WhatsApp</option>
-          <option value="3rd WhatsApp">3rd WhatsApp</option>
-          <option value="4th WhatsApp">4th WhatsApp</option>
-          <option value="5th WhatsApp">5th WhatsApp</option>
-        </datalist>
-      </p>
-      <p>
-        <label>Next Action on :
-          <input name="Next Action on" id="date" type="datetime-local" required /></label>
-      </p>
-      <p>
-        <label>Next Action by :
-          <select name="Next Action by" id="Next Action by" required>
-            <option value="" disabled selected>
-              Next Action to be done by
-            </option>
-            <option value="S. Daniel">S. Daniel</option>
-            <option value="Suhas M.">Suhas M.</option>
-            <option value="Aryahi K.">Aryahi K.</option>
-            <option value="Anamika S.">Anamika S.</option>
-            <option value="Naveenraj">Naveenraj</option>
-          </select>
-        </label>
-      </p>
-    </form>
-  </section>
-
-  <section id="demoSection">
-    <form id="demoform">
-      <!-- <p>
+    <section id="demoSection">
+      <form id="demoform">
+        <!-- <p>
             <label>Lead Id : <input id="leadid" name="Lead Id"></label>
         </p> -->
-      <p>
-        <label>Demo Booked After :
-          <select name="Demo Booked After" id="Demo Booked After">
-            <option value="" disabled selected>Demo Booked Stage</option>
-            <option value="Activated Email">Activated Email</option>
-            <option value="5th Follow-up WhatsApp">Activated WhatsApp</option>
-            <option value="5th Follow-up WhatsApp">Activated Call</option>
-            <option value="5th Follow-up WhatsApp">Direct</option>
-            <option value="5th Follow-up WhatsApp">External referrer</option>
-            <option value="1st Follow-up Email">1st Follow-up Email</option>
-            <option value="2nd Follow-up Email">2nd Follow-up Email</option>
-            <option value="3rd Follow-up Email">3rd Follow-up Email</option>
-            <option value="4th Follow-up Email">4th Follow-up Email</option>
-            <option value="5th Follow-up Email">5th Follow-up Email</option>
-            <option value="1st Follow-up WhatsApp">
-              1st Follow-up WhatsApp
-            </option>
-            <option value="2nd Follow-up WhatsApp">
-              2nd Follow-up WhatsApp
-            </option>
-            <option value="3rd Follow-up WhatsApp">
-              3rd Follow-up WhatsApp
-            </option>
-            <option value="4th Follow-up WhatsApp">
-              4th Follow-up WhatsApp
-            </option>
-            <option value="5th Follow-up WhatsApp">
-              5th Follow-up WhatsApp
-            </option>
-            <option value="1st Follow-up WhatsApp">1st Follow-up call</option>
-            <option value="2nd Follow-up WhatsApp">2nd Follow-up call</option>
-            <option value="3rd Follow-up WhatsApp">3rd Follow-up call</option>
-            <option value="4th Follow-up WhatsApp">4th Follow-up call</option>
-            <option value="5th Follow-up WhatsApp">5th Follow-up call</option>
-          </select>
-        </label>
-      </p>
-      <p>
-        <label>Demo Date :
-          <input name="Date & Time of the Demo" id="date" type="datetime-local" /></label>
-      </p>
-      <p>
-        <label>Demo Validity / Mood :
-          <select name="Demo Validity" id="Demo Validity">
-            <option value="" disabled selected>Select Validity</option>
-            <option value="Spicy">Data Missing</option>
-            <option value="Spicy">Spicy</option>
-            <option value="Dicy">Dicy</option>
-            <option value="Icy">Icy</option>
-            <option value="Pricy">Pricy</option>
-            <option value="Chameleon">Chameleon</option>
-            <option value="Never">Never</option>
-            <option value="Junk">Junk</option>
-          </select>
-        </label>
-      </p>
-      <p>
-        <label>Demo Notes : <br />
-          <textarea style="height: 100px; width: 98%" id="Demo-Notes" name="Demo-Notes"
-            placeholder="Type the Detailed Requirements, Mood & Minutes of the Demo"></textarea>
-        </label>
-      </p>
-      <p>
-        <label>Next Action : </label>
-        <input list="nextAction" type="text" name="Next Action" id="Next Action" placeholder="Choose Next Action" />
+        <p>
+          <label>Demo Booked After :
+            <select name="Demo Booked After" id="Demo Booked After">
+              <option value disabled selected>Demo Booked Stage</option>
+              <option value="Activated Email">Activated Email</option>
+              <option value="5th Follow-up WhatsApp">Activated WhatsApp</option>
+              <option value="5th Follow-up WhatsApp">Activated Call</option>
+              <option value="5th Follow-up WhatsApp">Direct</option>
+              <option value="5th Follow-up WhatsApp">External referrer</option>
+              <option value="1st Follow-up Email">1st Follow-up Email</option>
+              <option value="2nd Follow-up Email">2nd Follow-up Email</option>
+              <option value="3rd Follow-up Email">3rd Follow-up Email</option>
+              <option value="4th Follow-up Email">4th Follow-up Email</option>
+              <option value="5th Follow-up Email">5th Follow-up Email</option>
+              <option value="1st Follow-up WhatsApp">
+                1st Follow-up WhatsApp
+              </option>
+              <option value="2nd Follow-up WhatsApp">
+                2nd Follow-up WhatsApp
+              </option>
+              <option value="3rd Follow-up WhatsApp">
+                3rd Follow-up WhatsApp
+              </option>
+              <option value="4th Follow-up WhatsApp">
+                4th Follow-up WhatsApp
+              </option>
+              <option value="5th Follow-up WhatsApp">
+                5th Follow-up WhatsApp
+              </option>
+              <option value="1st Follow-up WhatsApp">1st Follow-up call</option>
+              <option value="2nd Follow-up WhatsApp">2nd Follow-up call</option>
+              <option value="3rd Follow-up WhatsApp">3rd Follow-up call</option>
+              <option value="4th Follow-up WhatsApp">4th Follow-up call</option>
+              <option value="5th Follow-up WhatsApp">5th Follow-up call</option>
+            </select>
+          </label>
+        </p>
+        <p>
+          <label>Demo Date :
+            <input name="Date & Time of the Demo" id="date"
+              type="datetime-local" /></label>
+        </p>
+        <p>
+          <label>Demo Validity / Mood :
+            <select name="Demo Validity" id="Demo Validity">
+              <option value disabled selected>Select Validity</option>
+              <option value="Spicy">Data Missing</option>
+              <option value="Spicy">Spicy</option>
+              <option value="Dicy">Dicy</option>
+              <option value="Icy">Icy</option>
+              <option value="Pricy">Pricy</option>
+              <option value="Chameleon">Chameleon</option>
+              <option value="Never">Never</option>
+              <option value="Junk">Junk</option>
+            </select>
+          </label>
+        </p>
+        <p>
+          <label>Demo Notes : <br />
+            <textarea style="height: 100px; width: 98%" id="Demo-Notes"
+              name="Demo-Notes"
+              placeholder="Type the Detailed Requirements, Mood & Minutes of the Demo"></textarea>
+          </label>
+        </p>
+        <p>
+          <label>Next Action : </label>
+          <input list="nextAction" type="text" name="Next Action"
+            id="Next Action" placeholder="Choose Next Action" />
 
-        <datalist id="nextAction">
-          <option value="Product Demo">Product Demo</option>
-          <option value="Follow up Call">Follow up Call</option>
-          <option value="Follow up Email">Follow up Email</option>
-          <option value="Follow up WhatsApp">Follow up WhatsApp</option>
-          <option value="1st Call">1st Call</option>
-          <option value="2nd Call">2nd Call</option>
-          <option value="3rd Call">3rd Call</option>
-          <option value="4th Call">4th Call</option>
-          <option value="5th Call">5th Call</option>
-          <option value="1st Email">1st Email</option>
-          <option value="2nd Email">2nd Email</option>
-          <option value="3rd Email">3rd Email</option>
-          <option value="4th Email">4th Email</option>
-          <option value="5th Email">5th Email</option>
-          <option value="1st WhatsApp">1st WhatsApp</option>
-          <option value="2nd WhatsApp">2nd WhatsApp</option>
-          <option value="3rd WhatsApp">3rd WhatsApp</option>
-          <option value="4th WhatsApp">4th WhatsApp</option>
-          <option value="5th WhatsApp">5th WhatsApp</option>
-        </datalist>
-      </p>
-      <p>
-        <label>Next Action on :
-          <input name="Next Action on" id="date" type="datetime-local" required /></label>
-      </p>
-      <p>
-        <label>Next Action by :
-          <select name="Next Action by" id="Next Action by" required>
-            <option value="" disabled selected>
-              Next Action to be done by
-            </option>
-            <option value="S. Daniel">S. Daniel</option>
-            <option value="Suhas M.">Suhas M.</option>
-            <option value="Aryahi K.">Aryahi K.</option>
-            <option value="Anamika S.">Anamika S.</option>
-            <option value="Naveenraj">Naveenraj</option>
-          </select>
-        </label>
-      </p>
-    </form>
-  </section>
+          <datalist id="nextAction">
+            <option value="Product Demo">Product Demo</option>
+            <option value="Follow up Call">Follow up Call</option>
+            <option value="Follow up Email">Follow up Email</option>
+            <option value="Follow up WhatsApp">Follow up WhatsApp</option>
+            <option value="1st Call">1st Call</option>
+            <option value="2nd Call">2nd Call</option>
+            <option value="3rd Call">3rd Call</option>
+            <option value="4th Call">4th Call</option>
+            <option value="5th Call">5th Call</option>
+            <option value="1st Email">1st Email</option>
+            <option value="2nd Email">2nd Email</option>
+            <option value="3rd Email">3rd Email</option>
+            <option value="4th Email">4th Email</option>
+            <option value="5th Email">5th Email</option>
+            <option value="1st WhatsApp">1st WhatsApp</option>
+            <option value="2nd WhatsApp">2nd WhatsApp</option>
+            <option value="3rd WhatsApp">3rd WhatsApp</option>
+            <option value="4th WhatsApp">4th WhatsApp</option>
+            <option value="5th WhatsApp">5th WhatsApp</option>
+          </datalist>
+        </p>
+        <p>
+          <label>Next Action on :
+            <input name="Next Action on" id="date" type="datetime-local"
+              required /></label>
+        </p>
+        <p>
+          <label>Next Action by :
+            <select name="Next Action by" id="Next Action by" required>
+              <option value disabled selected>
+                Next Action to be done by
+              </option>
+              <option value="S. Daniel">S. Daniel</option>
+              <option value="Suhas M.">Suhas M.</option>
+              <option value="Aryahi K.">Aryahi K.</option>
+              <option value="Anamika S.">Anamika S.</option>
+              <option value="Naveenraj">Naveenraj</option>
+            </select>
+          </label>
+        </p>
+      </form>
+    </section>
 
-  <section id="emailSection">
-    <form id="emailsform">
-      <!-- <p>
+    <section id="emailSection">
+      <form id="emailsform">
+        <!-- <p>
             <label>Lead Id : <input id="leadid" name="Lead Id"></label>
         </p> -->
-      <p>
-        <label>Email Activated Stage :
-          <select name="Email Activated Stage" id="Email Activated Stage">
-            <option value="" disabled selected>
-              Select Email Activated Stage
-            </option>
-            <option value="Activated Email">Activated Email</option>
-            <option value="Send Immediate">Send Immediate</option>
-            <option value="1st Follow-up Email">1st Follow-up Email</option>
-            <option value="2nd Follow-up Email">2nd Follow-up Email</option>
-            <option value="3rd Follow-up Email">3rd Follow-up Email</option>
-            <option value="4th Follow-up Email">4th Follow-up Email</option>
-            <option value="5th Follow-up Email">5th Follow-up Email</option>
-          </select>
-        </label>
-      </p>
-      <p>
-        <label>Time of the Reply :
-          <input name="Date & Time of the Reply" id="date" type="datetime-local" /></label>
-      </p>
-      <p>
-        <label>Email Validity / Mood :
-          <select name="Email Validity" id="Email Validity">
-            <option value="" disabled selected>Select Validity</option>
-            <option value="Spicy">Data Missing</option>
-            <option value="Spicy">Spicy</option>
-            <option value="Dicy">Dicy</option>
-            <option value="Icy">Icy</option>
-            <option value="Pricy">Pricy</option>
-            <option value="Chameleon">Chameleon</option>
-            <option value="Never">Never</option>
-            <option value="Junk">Junk</option>
-          </select>
-        </label>
-      </p>
-      <p>
-        <label>Email Transcript / Content : <br />
-          <textarea style="height: 100px; width: 98%" id="Email-Transcript" name="Email Transcript"
-            placeholder="Copy Paste the Replied Content"></textarea>
-        </label>
-      </p>
-      <p>
-        <label>Next Action : </label>
-        <input list="nextAction" type="text" name="Next Action" id="Next Action" placeholder="Choose Next Action" />
+        <p>
+          <label>Email Activated Stage :
+            <select name="Email Activated Stage" id="Email Activated Stage">
+              <option value disabled selected>
+                Select Email Activated Stage
+              </option>
+              <option value="Activated Email">Activated Email</option>
+              <option value="Send Immediate">Send Immediate</option>
+              <option value="1st Follow-up Email">1st Follow-up Email</option>
+              <option value="2nd Follow-up Email">2nd Follow-up Email</option>
+              <option value="3rd Follow-up Email">3rd Follow-up Email</option>
+              <option value="4th Follow-up Email">4th Follow-up Email</option>
+              <option value="5th Follow-up Email">5th Follow-up Email</option>
+            </select>
+          </label>
+        </p>
+        <p>
+          <label>Time of the Reply :
+            <input name="Date & Time of the Reply" id="date"
+              type="datetime-local" /></label>
+        </p>
+        <p>
+          <label>Email Validity / Mood :
+            <select name="Email Validity" id="Email Validity">
+              <option value disabled selected>Select Validity</option>
+              <option value="Spicy">Data Missing</option>
+              <option value="Spicy">Spicy</option>
+              <option value="Dicy">Dicy</option>
+              <option value="Icy">Icy</option>
+              <option value="Pricy">Pricy</option>
+              <option value="Chameleon">Chameleon</option>
+              <option value="Never">Never</option>
+              <option value="Junk">Junk</option>
+            </select>
+          </label>
+        </p>
+        <p>
+          <label>Email Transcript / Content : <br />
+            <textarea style="height: 100px; width: 98%" id="Email-Transcript"
+              name="Email Transcript"
+              placeholder="Copy Paste the Replied Content"></textarea>
+          </label>
+        </p>
+        <p>
+          <label>Next Action : </label>
+          <input list="nextAction" type="text" name="Next Action"
+            id="Next Action" placeholder="Choose Next Action" />
 
-        <datalist id="nextAction">
-          <option value="Product Demo">Product Demo</option>
-          <option value="Follow up Call">Follow up Call</option>
-          <option value="Follow up Email">Follow up Email</option>
-          <option value="Follow up WhatsApp">Follow up WhatsApp</option>
-          <option value="1st Call">1st Call</option>
-          <option value="2nd Call">2nd Call</option>
-          <option value="3rd Call">3rd Call</option>
-          <option value="4th Call">4th Call</option>
-          <option value="5th Call">5th Call</option>
-          <option value="1st Email">1st Email</option>
-          <option value="2nd Email">2nd Email</option>
-          <option value="3rd Email">3rd Email</option>
-          <option value="4th Email">4th Email</option>
-          <option value="5th Email">5th Email</option>
-          <option value="1st WhatsApp">1st WhatsApp</option>
-          <option value="2nd WhatsApp">2nd WhatsApp</option>
-          <option value="3rd WhatsApp">3rd WhatsApp</option>
-          <option value="4th WhatsApp">4th WhatsApp</option>
-          <option value="5th WhatsApp">5th WhatsApp</option>
-        </datalist>
-      </p>
-      <p>
-        <label>Next Action on :
-          <input name="Next Action on" id="date" type="datetime-local" required /></label>
-      </p>
-      <p>
-        <label>Next Action by :
-          <select name="Next Action by" id="Next Action by" required>
-            <option value="" disabled selected>
-              Next Action to be done by
-            </option>
-            <option value="S. Daniel">S. Daniel</option>
-            <option value="Suhas M.">Suhas M.</option>
-            <option value="Aryahi K.">Aryahi K.</option>
-            <option value="Anamika S.">Anamika S.</option>
-            <option value="Naveenraj">Naveenraj</option>
-          </select>
-        </label>
-      </p>
-    </form>
-  </section>
+          <datalist id="nextAction">
+            <option value="Product Demo">Product Demo</option>
+            <option value="Follow up Call">Follow up Call</option>
+            <option value="Follow up Email">Follow up Email</option>
+            <option value="Follow up WhatsApp">Follow up WhatsApp</option>
+            <option value="1st Call">1st Call</option>
+            <option value="2nd Call">2nd Call</option>
+            <option value="3rd Call">3rd Call</option>
+            <option value="4th Call">4th Call</option>
+            <option value="5th Call">5th Call</option>
+            <option value="1st Email">1st Email</option>
+            <option value="2nd Email">2nd Email</option>
+            <option value="3rd Email">3rd Email</option>
+            <option value="4th Email">4th Email</option>
+            <option value="5th Email">5th Email</option>
+            <option value="1st WhatsApp">1st WhatsApp</option>
+            <option value="2nd WhatsApp">2nd WhatsApp</option>
+            <option value="3rd WhatsApp">3rd WhatsApp</option>
+            <option value="4th WhatsApp">4th WhatsApp</option>
+            <option value="5th WhatsApp">5th WhatsApp</option>
+          </datalist>
+        </p>
+        <p>
+          <label>Next Action on :
+            <input name="Next Action on" id="date" type="datetime-local"
+              required /></label>
+        </p>
+        <p>
+          <label>Next Action by :
+            <select name="Next Action by" id="Next Action by" required>
+              <option value disabled selected>
+                Next Action to be done by
+              </option>
+              <option value="S. Daniel">S. Daniel</option>
+              <option value="Suhas M.">Suhas M.</option>
+              <option value="Aryahi K.">Aryahi K.</option>
+              <option value="Anamika S.">Anamika S.</option>
+              <option value="Naveenraj">Naveenraj</option>
+            </select>
+          </label>
+        </p>
+      </form>
+    </section>
 
-  <section id="wapSection">
-    <form id="whatsappform">
-      <!-- <p>
+    <section id="wapSection">
+      <form id="whatsappform">
+        <!-- <p>
             <label>Lead Id : <input id="leadid" name="Lead Id"></label>
         </p> -->
-      <p>
-        <label>WhatsApp Stage :
-          <select name="WhatsApp Activated Stage" id="WhatsApp Activated Stage">
-            <option value="" disabled selected>Select Activated Stage</option>
-            <option value="Activated WhatsApp">Activated WhatsApp</option>
-            <option value="1st Follow-up WhatsApp">
-              1st Follow-up WhatsApp
-            </option>
-            <option value="2nd Follow-up WhatsApp">
-              2nd Follow-up WhatsApp
-            </option>
-            <option value="3rd Follow-up WhatsApp">
-              3rd Follow-up WhatsApp
-            </option>
-            <option value="4th Follow-up WhatsApp">
-              4th Follow-up WhatsApp
-            </option>
-            <option value="5th Follow-up WhatsApp">
-              5th Follow-up WhatsApp
-            </option>
-          </select>
-        </label>
-      </p>
-      <p>
-        <label>Time of the Reply :
-          <input name="Date & Time of the Reply" id="date" type="datetime-local" /></label>
-      </p>
-      <p>
-        <label>WhatsApp Validity / Mood :
-          <select name="WhatsApp Validity" id="WhatsApp Validity">
-            <option value="" disabled selected>Select Validity</option>
-            <option value="Spicy">Data Missing</option>
-            <option value="Spicy">Spicy</option>
-            <option value="Dicy">Dicy</option>
-            <option value="Icy">Icy</option>
-            <option value="Pricy">Pricy</option>
-            <option value="Chameleon">Chameleon</option>
-            <option value="Never">Never</option>
-            <option value="Junk">Junk</option>
-          </select>
-        </label>
-      </p>
-      <p>
-        <label>WhatsApp Transcript / Content : <br />
-          <textarea style="height: 100px; width: 98%" id="WhatsApp-Transcript" name="WhatsApp Transcript"
-            placeholder="Copy Paste the Replied Content"></textarea>
-        </label>
-      </p>
-      <p>
-        <label>Next Action : </label>
-        <input list="nextAction" type="text" name="Next Action" id="Next Action" placeholder="Choose Next Action" />
+        <p>
+          <label>WhatsApp Stage :
+            <select name="WhatsApp Activated Stage"
+              id="WhatsApp Activated Stage">
+              <option value disabled selected>Select Activated Stage</option>
+              <option value="Activated WhatsApp">Activated WhatsApp</option>
+              <option value="1st Follow-up WhatsApp">
+                1st Follow-up WhatsApp
+              </option>
+              <option value="2nd Follow-up WhatsApp">
+                2nd Follow-up WhatsApp
+              </option>
+              <option value="3rd Follow-up WhatsApp">
+                3rd Follow-up WhatsApp
+              </option>
+              <option value="4th Follow-up WhatsApp">
+                4th Follow-up WhatsApp
+              </option>
+              <option value="5th Follow-up WhatsApp">
+                5th Follow-up WhatsApp
+              </option>
+            </select>
+          </label>
+        </p>
+        <p>
+          <label>Time of the Reply :
+            <input name="Date & Time of the Reply" id="date"
+              type="datetime-local" /></label>
+        </p>
+        <p>
+          <label>WhatsApp Validity / Mood :
+            <select name="WhatsApp Validity" id="WhatsApp Validity">
+              <option value disabled selected>Select Validity</option>
+              <option value="Spicy">Data Missing</option>
+              <option value="Spicy">Spicy</option>
+              <option value="Dicy">Dicy</option>
+              <option value="Icy">Icy</option>
+              <option value="Pricy">Pricy</option>
+              <option value="Chameleon">Chameleon</option>
+              <option value="Never">Never</option>
+              <option value="Junk">Junk</option>
+            </select>
+          </label>
+        </p>
+        <p>
+          <label>WhatsApp Transcript / Content : <br />
+            <textarea style="height: 100px; width: 98%" id="WhatsApp-Transcript"
+              name="WhatsApp Transcript"
+              placeholder="Copy Paste the Replied Content"></textarea>
+          </label>
+        </p>
+        <p>
+          <label>Next Action : </label>
+          <input list="nextAction" type="text" name="Next Action"
+            id="Next Action" placeholder="Choose Next Action" />
 
-        <datalist id="nextAction">
-          <option value="Product Demo">Product Demo</option>
-          <option value="Follow up Call">Follow up Call</option>
-          <option value="Follow up Email">Follow up Email</option>
-          <option value="Follow up WhatsApp">Follow up WhatsApp</option>
-          <option value="1st Call">1st Call</option>
-          <option value="2nd Call">2nd Call</option>
-          <option value="3rd Call">3rd Call</option>
-          <option value="4th Call">4th Call</option>
-          <option value="5th Call">5th Call</option>
-          <option value="1st Email">1st Email</option>
-          <option value="2nd Email">2nd Email</option>
-          <option value="3rd Email">3rd Email</option>
-          <option value="4th Email">4th Email</option>
-          <option value="5th Email">5th Email</option>
-          <option value="1st WhatsApp">1st WhatsApp</option>
-          <option value="2nd WhatsApp">2nd WhatsApp</option>
-          <option value="3rd WhatsApp">3rd WhatsApp</option>
-          <option value="4th WhatsApp">4th WhatsApp</option>
-          <option value="5th WhatsApp">5th WhatsApp</option>
-        </datalist>
-      </p>
-      <p>
-        <label>Next Action on :
-          <input name="Next Action on" id="date" type="datetime-local" required /></label>
-      </p>
-      <p>
-        <label>Next Action by :
-          <select name="Next Action by" id="Next Action by" required>
-            <option value="" disabled selected>
-              Next Action to be done by
-            </option>
-            <option value="S. Daniel">S. Daniel</option>
-            <option value="Suhas M.">Suhas M.</option>
-            <option value="Aryahi K.">Aryahi K.</option>
-            <option value="Anamika S.">Anamika S.</option>
-            <option value="Naveenraj">Naveenraj</option>
-          </select>
-        </label>
-      </p>
-    </form>
-  </section>
+          <datalist id="nextAction">
+            <option value="Product Demo">Product Demo</option>
+            <option value="Follow up Call">Follow up Call</option>
+            <option value="Follow up Email">Follow up Email</option>
+            <option value="Follow up WhatsApp">Follow up WhatsApp</option>
+            <option value="1st Call">1st Call</option>
+            <option value="2nd Call">2nd Call</option>
+            <option value="3rd Call">3rd Call</option>
+            <option value="4th Call">4th Call</option>
+            <option value="5th Call">5th Call</option>
+            <option value="1st Email">1st Email</option>
+            <option value="2nd Email">2nd Email</option>
+            <option value="3rd Email">3rd Email</option>
+            <option value="4th Email">4th Email</option>
+            <option value="5th Email">5th Email</option>
+            <option value="1st WhatsApp">1st WhatsApp</option>
+            <option value="2nd WhatsApp">2nd WhatsApp</option>
+            <option value="3rd WhatsApp">3rd WhatsApp</option>
+            <option value="4th WhatsApp">4th WhatsApp</option>
+            <option value="5th WhatsApp">5th WhatsApp</option>
+          </datalist>
+        </p>
+        <p>
+          <label>Next Action on :
+            <input name="Next Action on" id="date" type="datetime-local"
+              required /></label>
+        </p>
+        <p>
+          <label>Next Action by :
+            <select name="Next Action by" id="Next Action by" required>
+              <option value disabled selected>
+                Next Action to be done by
+              </option>
+              <option value="S. Daniel">S. Daniel</option>
+              <option value="Suhas M.">Suhas M.</option>
+              <option value="Aryahi K.">Aryahi K.</option>
+              <option value="Anamika S.">Anamika S.</option>
+              <option value="Naveenraj">Naveenraj</option>
+            </select>
+          </label>
+        </p>
+      </form>
+    </section>
 
-  <!------------------------------------------------------------------------------------------------------------------------>
+    <!------------------------------------------------------------------------------------------------------------------------>
 
-  <div class="columnForBasic">
-    <button class="button button1" id="copy">Copy</button>
-    <button class="button button2" id="reset-template">Reset</button>
-    <button class="button button1" on id="GenerateINTOBox">Generate</button>
-  </div>
-  <br />
-</body>
-<script language="JavaScript" type="text/javascript" src="script.js"></script>
+    <div class="columnForBasic">
+      <button class="button button1" id="copy">Copy</button>
+      <button class="button button2" id="reset-template">Reset</button>
+      <button class="button button1" on id="GenerateINTOBox">Generate</button>
+    </div>
+    <br />
+  </body>
+  <script language="JavaScript" type="text/javascript" src="script.js"></script>
 
 </html>
