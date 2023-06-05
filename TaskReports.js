@@ -95,6 +95,8 @@ async function splitToStoreInLocalStorage() {
             let end = new Date()
             console.log("End : ", end)
             console.log("Time Taken", (end - start) / 1000, "seconds")
+            localStorage.setItem("lastSyncTime", new Date())
+            document.getElementById('lastSyncTime').innerText = "Last Sync Time: " + new Date(localStorage.lastSyncTime).toLocaleString()
             generateOwnerOptions()
             readAllDataForOwner()
         })
@@ -406,6 +408,12 @@ window.onload = function () {
     generateOwnerOptions()
     document.getElementById('ownerSelect').addEventListener('change', readAllDataForOwner)
     readAllDataForOwner()
+    if (localStorage.lastSyncTime) {
+        document.getElementById('lastSyncTime').innerText = "Last Sync Time: " + new Date(localStorage.lastSyncTime).toLocaleString()
+    }
+    else {
+        document.getElementById('lastSyncTime').innerText = "Last Sync Time: Never"
+    }
     // generateDashboard(tasksData);
 
     // const graphssection = document.getElementById('graphssection'); // Replace 'yourDivId' with the actual ID of your <div> element
