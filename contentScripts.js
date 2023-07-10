@@ -43,12 +43,12 @@ async function stopUpdatingTimezone() {
 }
 async function initforTime() {
   // console.error("Runs Here")
-  var fax = document.getElementById('subvalue_FAX');
-  if (fax !== null) {
-    var faxValue = fax.innerText;
+  var LANE = document.getElementById('subvalue_LANE');
+  if (LANE !== null) {
+    var LANEValue = LANE.innerText;
   }
   try {
-    var today = new Date().toLocaleString("en-IN", { timeZone: faxValue, dateStyle: "medium", timeStyle: "medium" })
+    var today = new Date().toLocaleString("en-IN", { timeZone: LANEValue, dateStyle: "medium", timeStyle: "medium" })
   } catch (error) {
     // // window.alert("Error")
     // // console.error(error)
