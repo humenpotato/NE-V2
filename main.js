@@ -72,7 +72,7 @@ window.onload = function () {
 
 async function IPGetFromElastic() {
   console.log("IP GetFromElastic")
-  let hit_url = 'http://elastic.morphlelabs.com:9200/message/_search'
+  let hit_url = 'https://192.168.0.177:9200/message/_search'
 
   var raw = JSON.stringify({
     "sort": [
@@ -98,7 +98,7 @@ async function IPGetFromElastic() {
   var requestOptions = {
     method: 'POST',
     headers: {
-      "Authorization": "Basic ZWxhc3RpYzptb3JwaGxlaXN3b3c=",
+      "Authorization": "Basic ZWxhc3RpYzprdXUtTHpLRXVXWThxN2RnYkg4Yw==",
       "Content-Type": "application/json"
     },
     body: raw,
@@ -118,7 +118,7 @@ async function GetFromElastic() {
     sid = sid.split("_")[1]
     alert(sid)
   }
-  let hit_url = 'http://elastic.morphlelabs.com:9200/message/_search'
+  let hit_url = 'https://192.168.0.177:9200/message/_search'
   var raw = JSON.stringify({
     "sort": [
       {
@@ -144,14 +144,14 @@ async function GetFromElastic() {
   var requestOptions = {
     method: 'POST',
     headers: {
-      "Authorization": "Basic ZWxhc3RpYzptb3JwaGxlaXN3b3c=",
+      "Authorization": "Basic ZWxhc3RpYzprdXUtTHpLRXVXWThxN2RnYkg4Yw==",
       "Content-Type": "application/json"
     },
     body: raw,
     redirect: 'follow'
   };
 
-  fetch("http://elastic.morphlelabs.com:9200/message/_search", requestOptions)
+  fetch("https://192.168.0.177:9200/message/_search", requestOptions)
     .then(response => response.json())
     .then(result => processData(result))
     .catch(error => alert(error));
@@ -249,8 +249,9 @@ async function processSourceData(sourceDataProcess, initURL, initREF) {
     console.log(keyword)
   }
   if (initURL.includes('campaignid')) {
-    let campid = initURL.substring(initURL.indexOf("?campaignid=") + 12, initURL.indexOf("&"))
-    console.log(campid)
+    let campid = initURL.substring(initURL.indexOf("?campaignid=") + 12, initURL.indexOf("&", initURL.indexOf("?campaignid=")))
+    console.log("campaign__", campid)
+
     campdetails = sourceDataProcess[campid].CAMPAIGN
   }
   else {
